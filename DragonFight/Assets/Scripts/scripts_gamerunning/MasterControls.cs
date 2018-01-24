@@ -22,7 +22,7 @@ public enum GameStates
 public class MasterControls : MonoBehaviour {
 
 	//Dragon loader and deployer(instansiated in the start of script)
-	public DragonLoader dragonloader;
+	//public DragonLoader dragonloader;//not needed right now(becase dragoons are hard coded specail classes)
 	private DragonDeployer dragondeployer;
 
 	//Spell deployer
@@ -42,8 +42,8 @@ public class MasterControls : MonoBehaviour {
 	//Game State Runner
 	GameStates gstate;
 
-	//current dragon's index in the dragonloader list and prefabs list(used to get dragon prefab and dragon data from loader)
-	public int currentdragonindex;
+	//current dragon's type in  prefabs list(used to get dragon prefab)
+	public DragonType currentdragontype;
 
 
 
@@ -58,8 +58,10 @@ public class MasterControls : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//new Instanses
+		/*Not Required right now for above rasons mentioned
 		dragonloader = new DragonLoader ();
 		dragonloader.startLoadingDragons();
+		*/
 		dragondeployer = new DragonDeployer ();
 
 		//spelldeployer
@@ -70,9 +72,6 @@ public class MasterControls : MonoBehaviour {
 
 		//default value for gstate
 		gstate = GameStates.NONE;
-
-		//default index of current dragon
-		currentdragonindex=-1;
 
 		//initialize battlefield data from the attribs of battlefield object(Very important that battlefield is allready a valid object)
 		battlefieldgamedata=new BattleField_GameData(battlefield.nooftiles_vertical,battlefield.nooftiles_horizontal);
@@ -106,10 +105,10 @@ public class MasterControls : MonoBehaviour {
 				if (battlefield.isMouseInBoard ()) {
 
 					//check if the current dragon index is a valid index
-					if (currentdragonindex >= 0 && currentdragonindex < dragonprefab.dragons.Length && currentdragonindex < dragonloader.dragons.Count) {
+				if ((uint)currentdragontype >= 0 && (uint)currentdragontype < dragonprefab.dragons.Length) {
 
 						//if correct then deploy the dragon
-						Dragon dragonattrib=dragondeployer.deployDragon (dragonprefab.dragons [currentdragonindex], dragonloader.dragons [currentdragonindex], battlefield.getMouseWorldposonBoard ());
+					Dragon dragonattrib=dragondeployer.deployDragon (dragonprefab.dragons [(uint)currentdragontype],getDragonObject( currentdragontype), battlefield.getMouseWorldposonBoard ());
 
 						//update chancges to the battlefield data
 						Vector3 mousehitpoint=battlefield.getRayCastHitPoint();
@@ -145,10 +144,6 @@ public class MasterControls : MonoBehaviour {
 
 		//set state to none
 		gstate=GameStates.NONE;
-
-
-		//reset currentdragon
-		currentdragonindex=-1;
 	}
 
 	//set appropriate state based on the incomming string
@@ -159,9 +154,9 @@ public class MasterControls : MonoBehaviour {
 
 
 	//set the index of current dragon choice
-	public void setCurrentDragonIndex(int dragonindex)
+	public void setCurrentDragonIndex(DragonType dragontype)
 	{
-		currentdragonindex = dragonindex;
+		currentdragontype = dragontype;
 	}
 
 
@@ -186,6 +181,22 @@ public class MasterControls : MonoBehaviour {
 
 		//set the utility list to null (just for safety and garbage collection)
 		utility_listofdragons = null;
+	}
+
+	//get the respective dragon's attrib object as per the dragon choice index
+	public Dragon getDragonObject(DragonType dragontype)
+	{
+		switch (dragontype) {
+		case DragonType.BAHEMUTDRAGON:
+			return new BahemutDragon ();
+		case DragonType.SPEEDSTERDRAGON:
+			return new SpeedSterDragon ();
+		case DragonType.SEADRAGON:
+			return new SeaDragon ();
+		case DragonType.TIGERDRAGON:
+			return new TigerDragon ();
+		}
+		return null;
 	}
 
 }

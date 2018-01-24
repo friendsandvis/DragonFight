@@ -37,10 +37,10 @@ public class UIBUttonControl : MonoBehaviour {
 
 		//set dragonbutton listeners
 		Button[] dragonbuttons = dragonbuttongroup.GetComponentsInChildren<Button> ();
-		dragonbuttons [0].onClick.AddListener (delegate {setCurrentDragonIndex (0);});
-		dragonbuttons [1].onClick.AddListener (delegate {setCurrentDragonIndex (1);});
-		dragonbuttons [2].onClick.AddListener (delegate {setCurrentDragonIndex (2);});
-		dragonbuttons [3].onClick.AddListener (delegate {setCurrentDragonIndex (3);});
+		dragonbuttons [0].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.BAHEMUTDRAGON);});
+		dragonbuttons [1].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.SEADRAGON);});
+		dragonbuttons [2].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.SPEEDSTERDRAGON);});
+		dragonbuttons [3].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.TIGERDRAGON);});
 
 		//set spellbutton listeners
 		Button[] spellbuttons = spellbuttongroup.GetComponentsInChildren<Button> ();
@@ -76,12 +76,12 @@ public class UIBUttonControl : MonoBehaviour {
 		mastergamerunner.setState (GameStates.SPELL);
 	} 
 
-	private void setCurrentDragonIndex (int dragonindex)
+	private void setCurrentDragonIndex (DragonType dragontype)
 	{
 		//disable the dragon buttons
 		dragonbuttongroup.SetActive(false);
 
-		mastergamerunner.setCurrentDragonIndex (dragonindex);
+		mastergamerunner.setCurrentDragonIndex (dragontype);
 	}
 
 	private void activateSpell(SpellID spellid)

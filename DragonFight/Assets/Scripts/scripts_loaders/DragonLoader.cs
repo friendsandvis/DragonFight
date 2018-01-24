@@ -15,7 +15,7 @@ public class DragonLoader{
 		loadDragons ("DragonData.txt");
 
 		foreach (Dragon drag in dragons) {
-			Debug.Log (drag.dragonname);
+			Debug.Log (drag.dragontype);
 		}
 	}
 
@@ -45,11 +45,13 @@ public class DragonLoader{
 			getStringValuePair (fileline,out name,out value);
 
 			if (name.CompareTo ("Dragon") == 0)
-				newdragon = new Dragon (0.0f);
+				newdragon = new Dragon ();
 			else if (name.CompareTo ("Health") == 0)
 				newdragon.maxhealth = float.Parse (value);
-			else if (name.CompareTo ("Name") == 0)
-				newdragon.dragonname = value;
+			/*there is no dragon name now just dragontype
+			 * else if (name.CompareTo ("Name") == 0)
+			 * newdragon.dragonname = value;
+			 * */
 			else if (name.CompareTo ("EndDragon") == 0) {
 				dragons.Add (newdragon);newdragon = null;
 			}

@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //base class for all drgans(holds common attribs)
+
+public enum DragonType:uint
+{
+	TIGERDRAGON=0u,SEADRAGON=1u,BAHEMUTDRAGON=2u,SPEEDSTERDRAGON=3u
+};
+
 [System.Serializable]			//serialization is for debugging
 public class Dragon
 {
 	//basic attribs of any dragon
 	public float maxhealth=0.0f;
-	public string dragonname="No_Name";
+	public float attack = 0.0f;
+	public float defense = 0.0f;
+	public DragonType dragontype;
 
-	public Dragon(float maxhealth)
+	//default constructor not doing anything right now
+	public Dragon()
 	{
-		this.maxhealth = maxhealth;
+		
 	}
 
 	//copy constructor
@@ -22,6 +31,8 @@ public class Dragon
 			return;
 
 		this.maxhealth = dragondata.maxhealth;
-		this.dragonname = dragondata.dragonname;
+		this.defense = dragondata.defense;
+		this.attack = dragondata.attack;
+		this.dragontype = dragondata.dragontype;
 	}
 }

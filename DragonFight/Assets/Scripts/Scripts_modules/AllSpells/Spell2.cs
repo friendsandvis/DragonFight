@@ -14,6 +14,16 @@ public class Spell2:Spell
 	}
 	public override void effect (Dragon dragon)
 	{
-		dragon.maxhealth -= 50.0f;
+		dragon.maxhealth -= getDragonEffect(dragon);
+	}
+
+	private float getDragonEffect(Dragon dragon)
+	{
+		switch (dragon.dragontype) {
+		case DragonType.SEADRAGON:
+			return 50.0f;
+		default:
+			return 10.0f;
+		}
 	}
 }

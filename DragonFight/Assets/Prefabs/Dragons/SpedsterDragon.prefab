@@ -1534,6 +1534,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e209c944c979043a47888c61c64ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragonattribs:
+    maxhealth: 0
+    attack: 0
+    defense: 0
+    dragontype: 0
 --- !u!137 &137746677600154192
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

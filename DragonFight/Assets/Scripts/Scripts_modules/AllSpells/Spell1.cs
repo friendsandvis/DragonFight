@@ -12,8 +12,14 @@ public class Spell1:Spell
 		name = "PoisionArrow";
 		noofturnsforcooldown = 0;
 	}
+
 	public override void effect (Dragon dragon)
 	{
-		dragon.maxhealth -= 5.0f;
+		dragon.maxhealth -= getDragonEffect(dragon);
+	}
+
+	private float getDragonEffect(Dragon dragon)
+	{
+		return 5.0f;
 	}
 }

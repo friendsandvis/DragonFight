@@ -261,48 +261,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 64155808}
---- !u!1001 &134040116
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4846715029071986, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: f73c685a317839742884a16d58ad38d3, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &320262693
 GameObject:
   m_ObjectHideFlags: 0
@@ -2769,12 +2727,12 @@ MonoBehaviour:
   dragonprefab:
     dragons:
     - {fileID: 1995401055783114, guid: 90972dcaac65be74a8514f3eb9899127, type: 2}
-    - {fileID: 1136020050847608, guid: 13d29f1362fa7fe478bf85d55ffafa8d, type: 2}
-    - {fileID: 1576926716064214, guid: f73c685a317839742884a16d58ad38d3, type: 2}
     - {fileID: 1710260940940306, guid: 3e024d7c6382dbe4395158b9c9c7d106, type: 2}
+    - {fileID: 1576926716064214, guid: f73c685a317839742884a16d58ad38d3, type: 2}
+    - {fileID: 1136020050847608, guid: 13d29f1362fa7fe478bf85d55ffafa8d, type: 2}
   turnmanager: {fileID: 0}
   battlefield: {fileID: 918218903}
-  currentdragonindex: 0
+  currentdragontype: 0
 --- !u!114 &1875904413
 MonoBehaviour:
   m_ObjectHideFlags: 0
