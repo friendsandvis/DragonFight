@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleField_GameData{
-	public Dragon[,] fielddragons;
+	public Dragon_GameController[,] fielddragons;
 	private int x,y;
 
 	public BattleField_GameData(int nooftilesv,int nooftilesh)
 	{
 		x = nooftilesv;y = nooftilesh;
-		fielddragons = new Dragon[nooftilesv, nooftilesh];
+		fielddragons = new Dragon_GameController[nooftilesv, nooftilesh];
 	}
 
-	public void SetDragon(int x,int y,Dragon dragon)
+	public void SetDragon(int x,int y,Dragon_GameController dragon)
 	{
 		
 		//checking if the index is well within range
@@ -36,7 +36,7 @@ public class BattleField_GameData{
 		for (int i = 0; i < x; i++)
 			for (int i1 = 0; i1 < y; i1++) {
 				if (fielddragons [i, i1] != null)
-					dragons.Add (fielddragons [i,i1]);
+					dragons.Add (fielddragons [i,i1].dragonattribs);
 			}
 
 		return dragons;
@@ -44,6 +44,6 @@ public class BattleField_GameData{
 
 	public Dragon getDragon(int x,int y)
 	{
-		return fielddragons[x,y];
+		return fielddragons[x,y].dragonattribs;
 	}
 }

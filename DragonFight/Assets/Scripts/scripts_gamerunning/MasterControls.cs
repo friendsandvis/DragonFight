@@ -46,9 +46,9 @@ public class MasterControls : MonoBehaviour {
 	public DragonType currentdragontype;
 
 
-
 	//-----------------GameData----------------
 	public uint noofdragons,noofspells;
+	public Player[] players;
 
 	//-------------------------------UTILITY variables needed for functioning of this class------------------------
 	//not sure if they are supposed to be another class or not.(this approce seems resonable right now)
@@ -74,6 +74,9 @@ public class MasterControls : MonoBehaviour {
 
 		//loading sibling scripts
 		turnmanager=this.gameObject.GetComponent<TurnBasedSystem>();
+
+		//initialize players
+		initPlayers();
 
 		//default value for gstate
 		gstate = GameStates.NONE;
@@ -112,13 +115,22 @@ public class MasterControls : MonoBehaviour {
 					//check if the current dragon index is a valid index
 				if ((uint)currentdragontype >= 0 && (uint)currentdragontype < dragonprefab.dragons.Length) {
 
-						//if correct then deploy the dragon
-					Dragon dragonattrib=dragondeployer.deployDragon (dragonprefab.dragons [(uint)currentdragontype],getDragonObject( currentdragontype), battlefield.getMouseWorldposonBoard ());
+					//the hit point of grid
+					Vector3 mousehitpoint=battlefield.getRayCastHitPoint();
+					Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
 
-						//update chancges to the battlefield data
-						Vector3 mousehitpoint=battlefield.getRayCastHitPoint();
-						Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
-						battlefieldgamedata.SetDragon ((int)gridindex.x,(int)gridindex.y,dragonattrib);
+					//check if the selected plate is part of spawn plates for player
+					if (!players [turnmanager.currentplayer - 1].isPlateASpawn ((uint)gridindex.x, (uint)gridindex.y))
+						break;
+
+					//if correct then deploy the dragon
+					Dragon_GameController dragoncontroller=dragondeployer.deployDragon (dragonprefab.dragons [(uint)currentdragontype],getDragonObject( currentdragontype), battlefield.getMouseWorldposonBoard ());
+
+					//add dragon to the player
+					players[turnmanager.currentplayer-1].addDragonToPlayer(dragoncontroller);
+
+					//update chancges to the battlefield data
+					battlefieldgamedata.SetDragon ((int)gridindex.x,(int)gridindex.y,dragoncontroller);
 					}
 				}
 			break;
@@ -204,4 +216,23 @@ public class MasterControls : MonoBehaviour {
 		return null;
 	}
 
+
+
+	//--------------------------------------------Initialization support-----------------------------------------
+	//----------------WARNING::hard coded data--------------------------
+	//----must change plate positions when grid size changes
+	private void initPlayers()
+	{
+		players=new Player[2];
+
+		//player 1
+		players[0]=new Player(0);
+		players [0].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,180.0f,0.0f ));
+		players [0].addSpawnPlate (2,8);
+
+		//player 2
+		players[1]=new Player(1);
+		players [1].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,0.0f,0.0f ));
+		players [1].addSpawnPlate (2,1);
+	}
 }
