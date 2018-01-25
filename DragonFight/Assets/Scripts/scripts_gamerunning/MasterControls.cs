@@ -47,6 +47,8 @@ public class MasterControls : MonoBehaviour {
 
 
 
+	//-----------------GameData----------------
+	public uint noofdragons,noofspells;
 
 	//-------------------------------UTILITY variables needed for functioning of this class------------------------
 	//not sure if they are supposed to be another class or not.(this approce seems resonable right now)
@@ -66,6 +68,9 @@ public class MasterControls : MonoBehaviour {
 
 		//spelldeployer
 		spelldeployer=new SpellDeployer();
+
+		//load the spell effect matrix
+		Spell.initSpellEffectValueLoader(noofspells,noofdragons);
 
 		//loading sibling scripts
 		turnmanager=this.gameObject.GetComponent<TurnBasedSystem>();

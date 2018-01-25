@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SpellID
-{
-	POISIONBOMB,
-	POISIONARRAOW
-};
-
 public class SpellDeployer 
 {
 	public void deploySpell(List<Dragon> dragons,SpellID spellid)

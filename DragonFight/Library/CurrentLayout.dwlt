@@ -41,10 +41,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 987
-  m_MinSize: {x: 611, y: 571}
-  m_MaxSize: {x: 18006, y: 18021}
+  m_MinSize: {x: 613, y: 613}
+  m_MaxSize: {x: 18008, y: 18063}
   vertical: 1
-  controlID: 113
+  controlID: 162
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -63,8 +63,8 @@ MonoBehaviour:
     y: 356
     width: 398
     height: 315
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 104, y: 121}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -116,10 +116,10 @@ MonoBehaviour:
     y: 0
     width: 398
     height: 987
-  m_MinSize: {x: 234, y: 571}
-  m_MaxSize: {x: 10004, y: 18021}
+  m_MinSize: {x: 234, y: 613}
+  m_MaxSize: {x: 10004, y: 18063}
   vertical: 1
-  controlID: 115
+  controlID: 52
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -138,8 +138,8 @@ MonoBehaviour:
     y: 0
     width: 398
     height: 356
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -230,10 +230,10 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 987
-  m_MinSize: {x: 611, y: 571}
-  m_MaxSize: {x: 18006, y: 18021}
+  m_MinSize: {x: 613, y: 613}
+  m_MaxSize: {x: 18008, y: 18063}
   vertical: 0
-  controlID: 114
+  controlID: 163
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -252,8 +252,8 @@ MonoBehaviour:
     y: 0
     width: 1146
     height: 987
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 17}
@@ -465,9 +465,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d4060000
-    m_LastClickedID: 0
-    m_ExpandedIDs: 9efbffff0000000030290000
+    m_SelectedIDs: 143affff
+    m_LastClickedID: -50668
+    m_ExpandedIDs: 9efbffff000000004c290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -633,19 +633,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts/Scripts_modules/AllSpells
+    - Assets/Scripts/Scripts_modules/AllDrgons
   m_ViewMode: 1
   m_StartGridSize: 40
   m_LastFolders:
-  - Assets/Scripts/Scripts_modules/AllSpells
+  - Assets/Scripts/Scripts_modules/AllDrgons
   m_LastFoldersGridSize: 40
   m_LastProjectPath: D:\Developnment\GitHub\DragonFight\DragonFight
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 42}
-    m_SelectedIDs: b6270000
-    m_LastClickedID: 10166
-    m_ExpandedIDs: 0000000080270000a8270000ca270000cc270000d2270000d8270000002800003e280000242d0000262d0000282d00002a2d000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 58}
+    m_SelectedIDs: b0270000
+    m_LastClickedID: 10160
+    m_ExpandedIDs: 0000000090270000ba270000dc270000de270000e4270000ea2700001228000052280000402d0000422d0000442d0000462d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -673,7 +673,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000080270000ca270000cc270000d2270000d8270000002800003e280000242d0000262d0000282d00002a2d0000
+    m_ExpandedIDs: 0000000090270000ba270000dc270000de270000e4270000ea2700001228000052280000402d0000422d0000442d0000462d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -704,18 +704,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c6230000382a000026280000044f0000f84e00000a780000c0770000e07700005cf7fdff26cfffff00280000ce40fdffc2270000a83a000082400000a02b000036f5fdff1e8f0000fe8e0000102c00004a290000ec3500001028000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: SpeedSterDragonController
-      m_OriginalName: SpeedSterDragonController
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 11680
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 4}
     m_CreateAssetUtility:

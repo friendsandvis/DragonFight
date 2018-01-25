@@ -9,7 +9,7 @@ public class Spell1:Spell
 
 	public Spell1()
 	{
-		name = "PoisionArrow";
+		spellid = SpellID.POISIONARRAOW;
 		noofturnsforcooldown = 0;
 	}
 
@@ -18,7 +18,7 @@ public class Spell1:Spell
 		dragon.maxhealth -= getDragonEffect(dragon);
 	}
 
-	private float getDragonEffect(Dragon dragon)
+	protected override float getDragonEffect(Dragon dragon)
 	{
 		return 5.0f;
 	}

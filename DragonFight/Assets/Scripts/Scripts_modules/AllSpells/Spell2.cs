@@ -9,21 +9,11 @@ public class Spell2:Spell
 
 	public Spell2()
 	{
-		name = "PoisionBomb";
+		spellid = SpellID.POISIONBOMB;
 		noofturnsforcooldown = 1;
 	}
 	public override void effect (Dragon dragon)
 	{
 		dragon.maxhealth -= getDragonEffect(dragon);
-	}
-
-	private float getDragonEffect(Dragon dragon)
-	{
-		switch (dragon.dragontype) {
-		case DragonType.SEADRAGON:
-			return 50.0f;
-		default:
-			return 10.0f;
-		}
 	}
 }

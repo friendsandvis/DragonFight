@@ -2733,6 +2733,8 @@ MonoBehaviour:
   turnmanager: {fileID: 0}
   battlefield: {fileID: 918218903}
   currentdragontype: 0
+  noofdragons: 4
+  noofspells: 2
 --- !u!114 &1875904413
 MonoBehaviour:
   m_ObjectHideFlags: 0
