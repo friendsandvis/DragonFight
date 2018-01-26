@@ -16,6 +16,7 @@ public class Dragon
 	public float maxhealth=0.0f;
 	public float attack = 0.0f;
 	public float defense = 0.0f;
+	public uint movementfredom=0u;
 	public DragonType dragontype;
 
 	//default constructor not doing anything right now
@@ -34,5 +35,6 @@ public class Dragon
 		this.defense = dragondata.defense;
 		this.attack = dragondata.attack;
 		this.dragontype = dragondata.dragontype;
+		this.movementfredom = dragondata.movementfredom;
 	}
 }

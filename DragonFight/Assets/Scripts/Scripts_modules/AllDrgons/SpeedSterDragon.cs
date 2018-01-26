@@ -15,6 +15,7 @@ public class SpeedSterDragon: Dragon
 		defense = 5.0f;
 		attack = 50.0f;
 		maxhealth = 10.0f;
+		movementfredom = 2u;
 		dragontype=DragonType.SPEEDSTERDRAGON;
 
 	}

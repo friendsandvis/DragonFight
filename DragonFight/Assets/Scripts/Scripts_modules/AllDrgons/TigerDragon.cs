@@ -15,6 +15,7 @@ public class TigerDragon: Dragon
 		defense = 10.0f;
 		attack = 20.0f;
 		maxhealth = 100.0f;
+		movementfredom = 1u;
 		dragontype=DragonType.TIGERDRAGON;
 
 	}

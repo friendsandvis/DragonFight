@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleField_GameData{
+	
 	public Dragon_GameController[,] fielddragons;
 	private int x,y;
 
@@ -44,6 +45,41 @@ public class BattleField_GameData{
 
 	public Dragon getDragon(int x,int y)
 	{
+		if (fielddragons [x, y] == null)
+			return null;
+		
 		return fielddragons[x,y].dragonattribs;
+	}
+
+	public Dragon_GameController getDragonController(int x,int y)
+	{
+		return fielddragons[x,y];
+	}
+
+	public bool moveDragon(int prevx,int prevy,int newx,int newy,Vector3 newdragonposition)
+	{
+		Dragon_GameController dcontroller = getDragonController ((int)prevx,(int)prevy);
+
+		//calculate a max range of motion for the given dragon
+		int minx=prevx-(int)dcontroller.dragonattribs.movementfredom;
+		int maxx=prevx+(int)dcontroller.dragonattribs.movementfredom;
+		int miny=prevy-(int)dcontroller.dragonattribs.movementfredom;
+		int maxy=prevy+(int)dcontroller.dragonattribs.movementfredom;
+
+
+		//check if the given new pos is well within range
+		if (!(newx >= minx && newx <= maxx && newy >= miny && newy <= maxy))
+			return false;
+
+
+		//reposition dragon in matrix and in its transforms
+		fielddragons[newx,newy]=dcontroller;
+		fielddragons[prevx,prevy]=null;
+
+		Transform dtransform = dcontroller.gameObject.transform;
+
+		dtransform.position = newdragonposition;
+
+		return true;
 	}
 }

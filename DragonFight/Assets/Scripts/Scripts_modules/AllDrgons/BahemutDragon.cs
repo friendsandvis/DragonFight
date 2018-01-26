@@ -15,6 +15,7 @@ public class BahemutDragon: Dragon
 		defense = 50.0f;
 		attack = 10.0f;
 		maxhealth = 1000.0f;
+		movementfredom = 1u;
 		dragontype=DragonType.BAHEMUTDRAGON;
 
 	}

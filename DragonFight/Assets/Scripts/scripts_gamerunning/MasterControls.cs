@@ -11,7 +11,7 @@ public class DragonPrefabs
 //the state Points while gameis running
 public enum GameStates
 {
-	SPAWN,MOVE,ATTACK,SPELL,CELLSELECT,NONE	
+	SPAWN,MOVE,ATTACK,SPELL,CELLSELECT,MOVEMENT_DRAGONSELECT,MOVEMENT_FINALTILESELECT,NONE	
 };
 
 
@@ -52,7 +52,9 @@ public class MasterControls : MonoBehaviour {
 
 	//-------------------------------UTILITY variables needed for functioning of this class------------------------
 	//not sure if they are supposed to be another class or not.(this approce seems resonable right now)
-	private List<Dragon> utility_listofdragons=null;			
+	private List<Dragon> utility_listofdragons=null;
+	private List<Dragon_GameController> utility_listofdragoncontrollers=null;	
+	private Vector2 utility_tileindex;
 	private SpellID utility_spellid;
 
 
@@ -110,13 +112,13 @@ public class MasterControls : MonoBehaviour {
 		switch (gstate) {
 
 		case GameStates.SPAWN:
-				if (battlefield.isMouseInBoard ()) {
+			if (battlefield.isMouseInBoard ()) {
 
-					//check if the current dragon index is a valid index
+				//check if the current dragon index is a valid index
 				if ((uint)currentdragontype >= 0 && (uint)currentdragontype < dragonprefab.dragons.Length) {
 
 					//the hit point of grid
-					Vector3 mousehitpoint=battlefield.getRayCastHitPoint();
+					Vector3 mousehitpoint = battlefield.getRayCastHitPoint ();
 					Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
 
 					//check if the selected plate is part of spawn plates for player
@@ -124,15 +126,15 @@ public class MasterControls : MonoBehaviour {
 						break;
 
 					//if correct then deploy the dragon
-					Dragon_GameController dragoncontroller=dragondeployer.deployDragon (dragonprefab.dragons [(uint)currentdragontype],getDragonObject( currentdragontype), battlefield.getMouseWorldposonBoard ());
+					Dragon_GameController dragoncontroller = dragondeployer.deployDragon (dragonprefab.dragons [(uint)currentdragontype], getDragonObject (currentdragontype), battlefield.getMouseWorldposonBoard ());
 
 					//add dragon to the player
-					players[turnmanager.currentplayer-1].addDragonToPlayer(dragoncontroller);
+					players [turnmanager.currentplayer - 1].addDragonToPlayer (dragoncontroller);
 
 					//update chancges to the battlefield data
-					battlefieldgamedata.SetDragon ((int)gridindex.x,(int)gridindex.y,dragoncontroller);
-					}
+					battlefieldgamedata.SetDragon ((int)gridindex.x, (int)gridindex.y, dragoncontroller);
 				}
+			}
 			break;
 
 		case GameStates.CELLSELECT:
@@ -140,17 +142,47 @@ public class MasterControls : MonoBehaviour {
 
 				//get the dragon at the clicked point on board(nothing if null)
 				//not checking for repition right now
-				Vector3 mousehitpoint=battlefield.getRayCastHitPoint();
+				Vector3 mousehitpoint = battlefield.getRayCastHitPoint ();
 				Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
-				Dragon dragon=battlefieldgamedata.getDragon((int)gridindex.x,(int)gridindex.y);
+				Dragon dragon = battlefieldgamedata.getDragon ((int)gridindex.x, (int)gridindex.y);
 				if (dragon != null)
 					utility_listofdragons.Add (dragon);
 			
 			}
 			break;
 
+		case GameStates.MOVEMENT_DRAGONSELECT:
+			if (battlefield.isMouseInBoard ()) {
+
+				//select a single dragon on board
+				Vector3 mousehitpoint = battlefield.getRayCastHitPoint ();
+				Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
+				Dragon dragon = battlefieldgamedata.getDragon ((int)gridindex.x, (int)gridindex.y);
+				if (dragon != null) {
+					utility_tileindex = gridindex;
+					gstate = GameStates.MOVEMENT_FINALTILESELECT;
+				}
+
+			}
+			break;
+
+		case GameStates.MOVEMENT_FINALTILESELECT:
+			if (battlefield.isMouseInBoard ()) {
+
+				//select a final tile to move the previous dragon to on board
+				Vector3 mousehitpoint = battlefield.getRayCastHitPoint ();
+				Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
+
+
+				if (battlefieldgamedata.moveDragon((int)utility_tileindex.x,(int)utility_tileindex.y,(int)gridindex.x,(int)gridindex.y,battlefield.getMouseWorldposonBoard ())) {
+					gstate = GameStates.NONE;
+				}
+
+			}
+			break;
 		}
 	}
+
 
 
 	//turn ending function
@@ -198,6 +230,12 @@ public class MasterControls : MonoBehaviour {
 
 		//set the utility list to null (just for safety and garbage collection)
 		utility_listofdragons = null;
+	}
+
+	public void initDragonMovement()
+	{
+		//set the initializers for starting the movement of a dragon
+		gstate=GameStates.MOVEMENT_DRAGONSELECT;
 	}
 
 	//get the respective dragon's attrib object as per the dragon choice index

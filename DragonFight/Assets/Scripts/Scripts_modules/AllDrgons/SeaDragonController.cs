@@ -15,6 +15,7 @@ public class SeaDragon: Dragon
 		defense = 20.0f;
 		attack = 30.0f;
 		maxhealth = 50.0f;
+		movementfredom = 1u;
 		dragontype=DragonType.SEADRAGON;
 
 	}

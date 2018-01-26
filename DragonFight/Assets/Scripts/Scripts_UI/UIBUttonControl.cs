@@ -10,7 +10,7 @@ public class UIBUttonControl : MonoBehaviour {
 
 	//all the buttons(set manually to avoid confusions)
 	public Button endturn;
-	public Button spawnbutton,spellbutton,deployspellbutton;
+	public Button spawnbutton,spellbutton,deployspellbutton,movebutton;
 
 
 	//-------------------------------UTILITY variables needed for functioning of this class------------------------
@@ -32,6 +32,9 @@ public class UIBUttonControl : MonoBehaviour {
 
 		//deploy spell button listner
 		deployspellbutton.onClick.AddListener(deploySpell);
+
+		//move button listner
+		movebutton.onClick.AddListener(initDragonMovement);
 
 		//spell
 
@@ -106,5 +109,10 @@ public class UIBUttonControl : MonoBehaviour {
 		mastergamerunner.deploySpell (utility_spellid);
 	}
 
+	private void initDragonMovement()
+	{
+		//set the initializers for starting the movement of a dragon
+		mastergamerunner.initDragonMovement();
+	}
 
 }
