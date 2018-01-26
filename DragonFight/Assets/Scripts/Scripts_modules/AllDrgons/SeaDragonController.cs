@@ -18,5 +18,8 @@ public class SeaDragon: Dragon
 		movementfredom = 1u;
 		dragontype=DragonType.SEADRAGON;
 
+		//add moves
+		moves=new List<Attack>();
+		moves.Add(new TailSwipe(5.0f));
 	}
 }

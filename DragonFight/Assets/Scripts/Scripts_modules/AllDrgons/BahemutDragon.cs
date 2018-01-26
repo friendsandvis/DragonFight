@@ -18,5 +18,8 @@ public class BahemutDragon: Dragon
 		movementfredom = 1u;
 		dragontype=DragonType.BAHEMUTDRAGON;
 
+		//set moves
+		moves=new List<Attack>();
+		moves.Add(new TailSwipe(20.0f));
 	}
 }

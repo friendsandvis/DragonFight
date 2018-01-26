@@ -18,6 +18,7 @@ public class Dragon
 	public float defense = 0.0f;
 	public uint movementfredom=0u;
 	public DragonType dragontype;
+	public List<Attack> moves;
 
 	//default constructor not doing anything right now
 	public Dragon()
@@ -36,5 +37,9 @@ public class Dragon
 		this.attack = dragondata.attack;
 		this.dragontype = dragondata.dragontype;
 		this.movementfredom = dragondata.movementfredom;
+
+		this.moves = new List<Attack> ();
+		for (int z = 0; z < dragondata.moves.Count; z++)
+			this.moves.Add (dragondata.moves [z]);
 	}
 }

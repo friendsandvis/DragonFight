@@ -18,5 +18,8 @@ public class SpeedSterDragon: Dragon
 		movementfredom = 2u;
 		dragontype=DragonType.SPEEDSTERDRAGON;
 
+		//add moves
+		moves=new List<Attack>();
+		moves.Add(new FireBredth(2.0f));
 	}
 }

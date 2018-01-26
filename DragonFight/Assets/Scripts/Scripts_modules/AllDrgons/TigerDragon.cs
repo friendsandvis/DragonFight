@@ -18,5 +18,9 @@ public class TigerDragon: Dragon
 		movementfredom = 1u;
 		dragontype=DragonType.TIGERDRAGON;
 
+		//add moves
+		moves=new List<Attack>();
+		moves.Add(new FireBredth(20.0f));
+
 	}
 }

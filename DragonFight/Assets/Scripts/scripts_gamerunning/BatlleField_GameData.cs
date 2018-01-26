@@ -43,11 +43,62 @@ public class BattleField_GameData{
 		return dragons;
 	}
 
+
+	public List<Dragon> getAllDragonOfPlayer(uint playerindex)
+	{
+		List<Dragon> dragons = new List<Dragon> ();
+
+		for (int i = 0; i < x; i++)
+			for (int i1 = 0; i1 < y; i1++) {
+				if (fielddragons [i, i1] != null && fielddragons[i,i1].belongingplayerindex==playerindex)
+					dragons.Add (fielddragons [i,i1].dragonattribs);
+			}
+
+		return dragons;
+	}
+
+	public List<Dragon> getAllDragonNotOfPlayer(uint playerindex)
+	{
+		List<Dragon> dragons = new List<Dragon> ();
+
+		for (int i = 0; i < x; i++)
+			for (int i1 = 0; i1 < y; i1++) {
+				if (fielddragons [i, i1] != null && fielddragons[i,i1].belongingplayerindex!=playerindex)
+					dragons.Add (fielddragons [i,i1].dragonattribs);
+			}
+
+		return dragons;
+	}
+
+	public List<Dragon> getAllDragonNotOfPlayer(uint playerindex,int x,int y,int range)
+	{
+		//TO DO
+
+		return null;
+	}
+
+
 	public Dragon getDragon(int x,int y)
 	{
 		if (fielddragons [x, y] == null)
 			return null;
 		
+		return fielddragons[x,y].dragonattribs;
+	}
+
+	public Dragon getDragonOfPlayer(int x,int y,uint playerindex)
+	{
+		if (fielddragons [x, y] == null || fielddragons [x, y].belongingplayerindex!=playerindex)
+			return null;
+
+		return fielddragons[x,y].dragonattribs;
+	}
+
+	public Dragon getDragonNotOfPlayer(int x,int y,uint playerindex)
+	{
+		if (fielddragons [x, y] == null || fielddragons [x, y].belongingplayerindex==playerindex)
+			return null;
+
 		return fielddragons[x,y].dragonattribs;
 	}
 

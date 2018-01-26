@@ -10,14 +10,14 @@ public class UIBUttonControl : MonoBehaviour {
 
 	//all the buttons(set manually to avoid confusions)
 	public Button endturn;
-	public Button spawnbutton,spellbutton,deployspellbutton,movebutton;
+	public Button spawnbutton,spellbutton,deployspellbutton,movebutton,attackbutton;
 
 
 	//-------------------------------UTILITY variables needed for functioning of this class------------------------
-	//not sure if they are supposed to be another class or not.(this approce seems resonable right now)
+	//not sure if they are supposed to be another class or not.(this approce sseems resonable right now)
 	private SpellID utility_spellid;
 
-	public GameObject dragonbuttongroup,spellbuttongroup;
+	public GameObject dragonbuttongroup,spellbuttongroup,attackbuttongroup;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +36,9 @@ public class UIBUttonControl : MonoBehaviour {
 		//move button listner
 		movebutton.onClick.AddListener(initDragonMovement);
 
+		//attack button listner
+		attackbutton.onClick.AddListener(selectDragonToAttack);
+
 		//spell
 
 		//set dragonbutton listeners
@@ -49,6 +52,10 @@ public class UIBUttonControl : MonoBehaviour {
 		Button[] spellbuttons = spellbuttongroup.GetComponentsInChildren<Button> ();
 		spellbuttons [0].onClick.AddListener (delegate {activateSpell (SpellID.POISIONARRAOW);});
 		spellbuttons [1].onClick.AddListener (delegate {activateSpell (SpellID.POISIONBOMB);});
+
+		//set spellbutton listeners
+		Button[] attackbuttons = attackbuttongroup.GetComponentsInChildren<Button> ();
+		attackbuttons [0].onClick.AddListener (delegate { prepareAttack(0);});
 	}
 	
 	// Update is called once per frame
@@ -115,4 +122,20 @@ public class UIBUttonControl : MonoBehaviour {
 		mastergamerunner.initDragonMovement();
 	}
 
+	private void selectDragonToAttack()
+	{
+		mastergamerunner.selectDragonToAttack ();
+	}
+
+	public void showAttackPane()
+	{
+		attackbuttongroup.SetActive (true);
+	}
+
+	private void prepareAttack(int index)
+	{
+		attackbuttongroup.SetActive (false);
+
+		mastergamerunner.prepAttack (index);
+	}
 }

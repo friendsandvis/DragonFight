@@ -2,43 +2,69 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//a singleton class
 public class SpellDeployer 
 {
-	public void deploySpell(List<Dragon> dragons,SpellID spellid)
-	{
-		Spell spell=null;
+	Spell currentspell;
 
-		//set apt spell
+
+	public void prepareSpell(SpellID spellid)
+	{
+		Debug.Log (spellid);
 		switch(spellid)
 		{
 		case SpellID.POISIONBOMB:
-				spell = new Spell2 ();
-				break;
+			currentspell = new Spell2 ();
+			break;
 		case SpellID.POISIONARRAOW:
-			spell = new Spell1 ();
+			currentspell = new Spell1 ();
 			break;
 		}
+	}
 
+	public void deploySpell(List<Dragon> dragons)
+	{
 		//spply spell effect to each dragon
 		foreach (Dragon dragon in dragons) 
-			spell.effect (dragon);
+			currentspell.effect (dragon);
+
+		//safety first
+		currentspell = null;
 	}
 
 
-	public bool doesSpellEffectsAllDragons(SpellID spellid)
+	public bool doesSpellEffectsAllDragons()
 	{
-		Debug.Log (spellid);
-		switch (spellid) {
-
-		case SpellID.POISIONBOMB:
-			return Spell2.effectalldragons;
-
-		case SpellID.POISIONARRAOW:
-			return Spell1.effectalldragons;
-		
-		default:
-			return true;
+		if (currentspell == null)
+		{
+			Debug.Log ("No selected spell");
+			return false;
 		}
+			
+		return currentspell.effectall;
 	}
+
+	public bool isSpellSelfEffecting()
+	{
+		if (currentspell == null)
+		{
+			Debug.Log ("No selected spell");
+			return false;
+		}
+
+		return currentspell.selfeffecting;
+	}
+
+	public uint getExpectedEffectedDragonCount()
+	{
+		if (currentspell == null)
+		{
+			Debug.Log ("No selected spell");
+			return 0;
+		}
+
+		return currentspell.effecteddragoncount;
+	}
+
 
 }
