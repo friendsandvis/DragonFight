@@ -70,11 +70,27 @@ public class BattleField_GameData{
 		return dragons;
 	}
 
-	public List<Dragon> getAllDragonNotOfPlayer(uint playerindex,int x,int y,int range)
+	public List<Dragon> getAllDragonNotOfPlayer(uint playerindex,int posx,int posy,int range)
 	{
-		//TO DO
+		//get all dragons in the range of the given tile and not belonging to player
+		int minx=posx-range;
+		int maxx=posx+range;
+		int miny=posy-range;
+		int maxy=posy+range;
 
-		return null;
+		List<Dragon> dragons = new List<Dragon> ();
+
+		for (int i = 0; i < x; i++)
+			for (int i1 = 0; i1 < y; i1++) {
+				if (fielddragons [i, i1] != null && fielddragons [i, i1].belongingplayerindex != playerindex) {
+
+					//range check
+					if(i>=minx && i<=maxx && i1>=miny && i1<=maxy)
+					dragons.Add (fielddragons [i, i1].dragonattribs);
+				}
+			}
+
+		return dragons;
 	}
 
 
@@ -105,6 +121,16 @@ public class BattleField_GameData{
 	public Dragon_GameController getDragonController(int x,int y)
 	{
 		return fielddragons[x,y];
+	}
+
+	public bool isTileInRange(int x,int y,int posx,int posy,int range)
+	{
+		int minx=posx-range;
+		int maxx=posx+range;
+		int miny=posy-range;
+		int maxy=posy+range;
+
+		return(x >= minx && x <= maxx && y >= miny && y <= maxy);
 	}
 
 	public bool moveDragon(int prevx,int prevy,int newx,int newy,Vector3 newdragonposition)

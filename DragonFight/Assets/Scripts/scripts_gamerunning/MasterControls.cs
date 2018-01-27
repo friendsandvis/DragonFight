@@ -11,7 +11,7 @@ public class DragonPrefabs
 //the state Points while gameis running
 public enum GameStates
 {
-	SPAWN,MOVE,ATTACK,SPELL,SPELL_DRAGONSELECT,MOVEMENT_DRAGONSELECT,MOVEMENT_FINALTILESELECT,ATTACK_DRAGONSELECT,NONE	
+	SPAWN,MOVE,ATTACK,SPELL,SPELL_DRAGONSELECT,MOVEMENT_DRAGONSELECT,MOVEMENT_FINALTILESELECT,ATTACK_DRAGONSELECT,ATTACK_AFFECTEDDRAGONSELECT,NONE	
 };
 
 
@@ -198,6 +198,7 @@ public class MasterControls : MonoBehaviour {
 			}
 			break;
 
+
 		case GameStates.ATTACK_DRAGONSELECT:
 			if (battlefield.isMouseInBoard ()) {
 
@@ -208,9 +209,32 @@ public class MasterControls : MonoBehaviour {
 				if (dragon != null) {
 					utility_tileindex = gridindex;
 					gstate = GameStates.NONE;
-					Debug.Log (utility_tileindex.x+"   "+utility_tileindex.y);
 					//pass the message to ui controls
 					buttoncontrols.showAttackPane();
+				}
+
+			}
+			break;
+
+		case GameStates.ATTACK_AFFECTEDDRAGONSELECT:
+			if (battlefield.isMouseInBoard ()) {
+
+				//select a single dragon on board
+				Vector3 mousehitpoint = battlefield.getRayCastHitPoint ();
+				Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
+
+				Dragon dragon = null;
+				//only get dragons that are in range
+				if(battlefieldgamedata.isTileInRange((int)gridindex.x, (int)gridindex.y,(int)utility_tileindex.x,(int)utility_tileindex.y,(int)attackdeployer.getRange()))
+				dragon = battlefieldgamedata.getDragonNotOfPlayer ((int)gridindex.x, (int)gridindex.y,(uint)(turnmanager.currentplayer-1));
+
+				if (dragon != null) {
+					utility_listofdragons.Add (dragon);
+
+					if (utility_listofdragons.Count >= attackdeployer.getAffectedDragonCount ()) {
+						gstate = GameStates.NONE;
+						deployAttack ();
+					}
 				}
 
 			}
@@ -261,7 +285,7 @@ public class MasterControls : MonoBehaviour {
 		//selected dragon spell(Start selection procedure)
 		else {
 			setState (GameStates.SPELL_DRAGONSELECT);
-			utility_spellid = spellid;
+			//not needed     utility_spellid = spellid;
 			utility_listofdragons = new List<Dragon> ();
 		}
 	}
@@ -293,8 +317,23 @@ public class MasterControls : MonoBehaviour {
 
 		//deploy attack imidiately if attacking all
 		if (attackdeployer.doesEffectAllinrange ()) {
-			utility_listofdragons = battlefieldgamedata.getAllDragonNotOfPlayer ((uint)(turnmanager.currentplayer-1));
+			utility_listofdragons = battlefieldgamedata.getAllDragonNotOfPlayer ((uint)(turnmanager.currentplayer - 1), (int)utility_tileindex.x, (int)utility_tileindex.y, (int)attackdeployer.getRange ());
+			deployAttack ();
+		} 
+
+		else {
+			Debug.Log ("Select Dragons");
+			utility_listofdragons = new List<Dragon> ();
+			gstate = GameStates.ATTACK_AFFECTEDDRAGONSELECT;
 		}
+
+	}
+
+	public void deployAttack()
+	{
+		attackdeployer.deployAttack (utility_listofdragons);
+		utility_listofdragons = null;
+		gstate = GameStates.NONE;
 	}
 
 

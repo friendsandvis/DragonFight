@@ -8,7 +8,7 @@ public class FireBredth : Attack {
 	{
 		this.damagedone = damagedone;
 		attackid = AttackId.FIREBREADTH;
-		range = 2u;
+		range = 5u;
 		selfattacking = false;
 		effectall = false;
 		effecteddragoncount = 1u;

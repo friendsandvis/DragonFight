@@ -40,4 +40,14 @@ public class AttackDeployer {
 
 		return attack.range;
 	}
+
+	public uint getAffectedDragonCount()
+	{
+		if (attack == null) {
+			Debug.Log ("Attack not choosen");
+			return 0u;
+		}
+
+		return attack.effecteddragoncount;
+	}
 }
