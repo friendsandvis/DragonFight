@@ -96,6 +96,12 @@ public class UIBUttonControl : MonoBehaviour {
 
 	private void activateSpell(SpellID spellid)
 	{
+		if (!mastergamerunner.isSpellUsable (spellid))
+		{
+			Debug.Log ("Spell not usable");
+			return;
+		}
+		
 		//disable spell buttons
 		spellbuttongroup.SetActive(false);
 

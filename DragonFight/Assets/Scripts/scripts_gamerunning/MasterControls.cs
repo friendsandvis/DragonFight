@@ -23,6 +23,8 @@ public class MasterControls : MonoBehaviour {
 
 	//------------------preinitialized data--------------------------
 	public UIBUttonControl buttoncontrols;
+	public DragonPrefabs dragonprefab;
+
 
 	//Dragon loader and deployer(instansiated in the start of script)
 	//public DragonLoader dragonloader;//not needed right now(becase dragoons are hard coded specail classes)
@@ -33,9 +35,6 @@ public class MasterControls : MonoBehaviour {
 
 	//Attack Deployer
 	private AttackDeployer attackdeployer;
-
-	//must be set by inspector(all the dragon prefabs)
-	public DragonPrefabs dragonprefab;
 
 	//sibling component scripts
 	public TurnBasedSystem turnmanager;
@@ -103,6 +102,8 @@ public class MasterControls : MonoBehaviour {
 		
 		//do mouse click based actions
 		poolMouseClicks ();
+
+
 			
 	}
 
@@ -154,7 +155,12 @@ public class MasterControls : MonoBehaviour {
 				//not checking for repition right now
 				Vector3 mousehitpoint = battlefield.getRayCastHitPoint ();
 				Vector2 gridindex = battlefield.getGridIndex (mousehitpoint);
-				Dragon dragon = battlefieldgamedata.getDragonOfPlayer ((int)gridindex.x, (int)gridindex.y,(uint)(turnmanager.currentplayer-1));
+
+				Dragon dragon = null;
+				if(spelldeployer.isSpellSelfEffecting())
+					 dragon = battlefieldgamedata.getDragonOfPlayer ((int)gridindex.x, (int)gridindex.y,(uint)(turnmanager.currentplayer-1));
+				else
+					dragon = battlefieldgamedata.getDragonNotOfPlayer ((int)gridindex.x, (int)gridindex.y,(uint)(turnmanager.currentplayer-1));
 
 				if (dragon != null) {
 					utility_listofdragons.Add (dragon);
@@ -162,6 +168,7 @@ public class MasterControls : MonoBehaviour {
 					//terminate spell dragon selection proocess
 					if (utility_listofdragons.Count >= spelldeployer.getExpectedEffectedDragonCount ()) {
 						gstate = GameStates.NONE;
+						Debug.Log ("Max selected");
 					}
 				}
 			
@@ -244,21 +251,29 @@ public class MasterControls : MonoBehaviour {
 
 
 
+
 	//turn ending function
 	public void endTurn()
 	{
+		//update spellcooldown
+		players[turnmanager.currentplayer-1].decrementCoolDown(1u);
+
 		//update turn manager
 		turnmanager.nextTurn ();
 
 		//set state to none
 		gstate=GameStates.NONE;
+
 	}
+
+
 
 	//set appropriate state based on the incomming string
 	public void setState(GameStates state)
 	{
 		gstate = state;
 	}
+
 
 
 	//set the index of current dragon choice
@@ -271,6 +286,12 @@ public class MasterControls : MonoBehaviour {
 	//deploy the spell or start a cell selection procedure if needed
 	public void prepareSpell(SpellID spellid)
 	{
+		if (!players [turnmanager.currentplayer - 1].isSpellReadyForUse (spellid))
+		{
+			Debug.Log ("Spell under cooldown");
+			return;
+		}
+		
 		//prepareSpell the Spell int the Spell deployer
 		spelldeployer.prepareSpell (spellid);
 
@@ -292,8 +313,12 @@ public class MasterControls : MonoBehaviour {
 
 	public void deploySpell(SpellID spellid)
 	{
+		uint cooldown = spelldeployer.getCoolDown ();
 		//deploy the spell with the list of dragons in utility list of dragos
 		spelldeployer.deploySpell (utility_listofdragons);
+
+		//set spell cooldown in the playerdata
+		players[turnmanager.currentplayer-1].setCoolDown(spellid,cooldown);
 
 		//set the utility list to null (just for safety and garbage collection)
 		utility_listofdragons = null;
@@ -305,11 +330,14 @@ public class MasterControls : MonoBehaviour {
 		gstate=GameStates.MOVEMENT_DRAGONSELECT;
 	}
 		
+
+	//Select the dragon to start attacking with
 	public void selectDragonToAttack()
 	{
 		gstate = GameStates.ATTACK_DRAGONSELECT;
 	}
 
+	//prepare the attack for deployment
 	public void prepAttack(int attackindex)
 	{
 		Dragon drag = battlefieldgamedata.getDragon ((int)utility_tileindex.x,(int)utility_tileindex.y);
@@ -329,12 +357,22 @@ public class MasterControls : MonoBehaviour {
 
 	}
 
-	public void deployAttack()
+	//bring attacks to effect
+	private void deployAttack()
 	{
 		attackdeployer.deployAttack (utility_listofdragons);
 		utility_listofdragons = null;
 		gstate = GameStates.NONE;
 	}
+
+
+	//is spell ready to be used
+	public bool isSpellUsable(SpellID spellid)
+	{
+		return players [turnmanager.currentplayer - 1].isSpellReadyForUse (spellid);
+	}
+
+
 
 
 	//--------------------------------------------Initialization support-----------------------------------------
@@ -345,12 +383,12 @@ public class MasterControls : MonoBehaviour {
 		players=new Player[2];
 
 		//player 1
-		players[0]=new Player(0);
+		players[0]=new Player(0,"PlayerData_1.txt");
 		players [0].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,180.0f,0.0f ));
 		players [0].addSpawnPlate (2,8);
 
 		//player 2
-		players[1]=new Player(1);
+		players[1]=new Player(1,"PlayerData_2.txt");
 		players [1].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,0.0f,0.0f ));
 		players [1].addSpawnPlate (2,1);
 	}

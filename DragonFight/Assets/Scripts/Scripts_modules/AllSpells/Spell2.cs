@@ -9,7 +9,7 @@ public class Spell2:Spell
 	public Spell2()
 	{
 		spellid = SpellID.POISIONBOMB;
-		noofturnsforcooldown = 1;
+		noofturnsforcooldown = 2u;
 		effectall = true;
 		effecteddragoncount = 0u;
 		selfeffecting = false;

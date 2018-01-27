@@ -66,5 +66,14 @@ public class SpellDeployer
 		return currentspell.effecteddragoncount;
 	}
 
+	public uint getCoolDown()
+	{
+		if (currentspell == null)
+		{
+			Debug.Log ("No selected spell");
+			return 0;
+		}
 
+		return currentspell.noofturnsforcooldown;
+	}
 }
