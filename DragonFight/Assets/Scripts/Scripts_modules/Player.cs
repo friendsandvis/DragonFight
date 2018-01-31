@@ -57,6 +57,10 @@ public class Player {
 	//spawn plates(array of 2)
 	List<PlateIndex> spawnplates;
 
+	//player Experience data
+	uint experiencelevel;
+	float experiencescore;
+
 	//List of all spells available   as spell-reloading_turns pair
 	List<PlayersSpell> playerspells;
 
@@ -127,6 +131,19 @@ public class Player {
 			{
 				pspell.turnsuntilavailable -= decrement;
 			}
+		}
+	}
+
+
+
+	//decrement the count of a specific dragon theat is avialable to the player
+	public void decrementNoofDragonsWithPlayer(DragonType dragtype,uint decrementvalue)
+	{
+		foreach (PlayersDragon dragon in playersdragons) {
+			if (dragon.dragtype == dragtype) {
+				dragon.noofdragonsavailable -= decrementvalue;
+			}
+		
 		}
 	}
 }

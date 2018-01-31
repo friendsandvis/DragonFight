@@ -280,6 +280,10 @@ public class MasterControls : MonoBehaviour {
 	public void setCurrentDragonIndex(DragonType dragontype)
 	{
 		currentdragontype = dragontype;
+
+		//dragon dicrement (if choosen) in the player dragons list
+		//NOTE: (will uncomment after making the ui more intelligent)
+		//players[turnmanager.currentplayer-1].decrementNoofDragonsWithPlayer(dragontype,1);
 	}
 
 

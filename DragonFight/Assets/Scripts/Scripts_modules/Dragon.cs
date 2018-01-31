@@ -20,6 +20,11 @@ public class Dragon
 	public DragonType dragontype;
 	public List<Attack> moves;
 
+	//experience points
+	public uint draglevel=0;
+	public float experiencescore=0;
+
+
 	//default constructor not doing anything right now
 	public Dragon()
 	{
@@ -41,5 +46,11 @@ public class Dragon
 		this.moves = new List<Attack> ();
 		for (int z = 0; z < dragondata.moves.Count; z++)
 			this.moves.Add (dragondata.moves [z]);
+	}
+		
+	//helper fuction to add experience to dragons
+	public void addExperienceScore(float expscore)
+	{
+		experiencescore += expscore;
 	}
 }
