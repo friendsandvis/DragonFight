@@ -19,6 +19,9 @@ public class SpellDeployer
 		case SpellID.POISIONARRAOW:
 			currentspell = new Spell1 ();
 			break;
+		case SpellID.HEALTHUP:
+			currentspell = new Spell3 ();
+			break;
 		}
 	}
 

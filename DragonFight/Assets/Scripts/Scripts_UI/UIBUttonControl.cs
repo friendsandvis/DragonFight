@@ -17,6 +17,7 @@ public class UIBUttonControl : MonoBehaviour {
 	//not sure if they are supposed to be another class or not.(this approce sseems resonable right now)
 	private SpellID utility_spellid;
 
+
 	public GameObject dragonbuttongroup,spellbuttongroup,attackbuttongroup;
 
 	// Use this for initialization
@@ -52,6 +53,7 @@ public class UIBUttonControl : MonoBehaviour {
 		Button[] spellbuttons = spellbuttongroup.GetComponentsInChildren<Button> ();
 		spellbuttons [0].onClick.AddListener (delegate {activateSpell (SpellID.POISIONARRAOW);});
 		spellbuttons [1].onClick.AddListener (delegate {activateSpell (SpellID.POISIONBOMB);});
+		spellbuttons [2].onClick.AddListener (delegate {activateSpell (SpellID.HEALTHUP);});
 
 		//set spellbutton listeners
 		Button[] attackbuttons = attackbuttongroup.GetComponentsInChildren<Button> ();

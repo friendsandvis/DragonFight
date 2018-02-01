@@ -364,7 +364,8 @@ public class MasterControls : MonoBehaviour {
 	//bring attacks to effect
 	private void deployAttack()
 	{
-		attackdeployer.deployAttack (utility_listofdragons);
+		//attack with effeciency
+		attackdeployer.deployAttack (utility_listofdragons,1.0f);
 		utility_listofdragons = null;
 		gstate = GameStates.NONE;
 	}

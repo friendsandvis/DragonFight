@@ -5,7 +5,8 @@ using UnityEngine;
 public enum SpellID:uint
 {
 	POISIONBOMB=0u,
-	POISIONARRAOW=1u
+	POISIONARRAOW=1u,
+	HEALTHUP=2u
 };
 
 //a spell is just a base class

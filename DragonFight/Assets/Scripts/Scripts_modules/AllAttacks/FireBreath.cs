@@ -14,9 +14,4 @@ public class FireBredth : Attack {
 		effecteddragoncount = 1u;
 	}
 
-	public override void applyEffect (Dragon dragon)
-	{
-		base.applyEffect (dragon);
-	}
-
 }

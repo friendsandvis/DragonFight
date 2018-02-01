@@ -13,8 +13,4 @@ public class TailSwipe : Attack {
 		effecteddragoncount = 0u;
 	}
 
-	public override void applyEffect (Dragon dragon)
-	{
-		base.applyEffect (dragon);
-	}
 }

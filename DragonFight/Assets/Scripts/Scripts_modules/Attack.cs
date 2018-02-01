@@ -19,6 +19,8 @@ public class Attack {
 	public uint effecteddragoncount; 		//will be 0 when the case of effect all
 
 
-	public virtual void applyEffect(Dragon dragon)
-	{dragon.maxhealth -= damagedone;}
+	public virtual void applyEffect(Dragon dragon,float efficiency)
+	{
+		dragon.maxhealth -= efficiency*damagedone;
+	}
 }

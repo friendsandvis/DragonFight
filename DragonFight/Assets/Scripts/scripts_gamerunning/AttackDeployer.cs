@@ -11,10 +11,10 @@ public class AttackDeployer {
 		this.attack=attack;
 	}
 
-	public void deployAttack(List<Dragon> affecteddragons)
+	public void deployAttack(List<Dragon> affecteddragons,float efficiency)
 	{
 		foreach (Dragon drag in affecteddragons) {
-			attack.applyEffect (drag);
+			attack.applyEffect (drag,efficiency);
 		}
 
 		//safety
