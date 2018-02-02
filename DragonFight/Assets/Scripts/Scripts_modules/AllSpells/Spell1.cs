@@ -12,6 +12,7 @@ public class Spell1:Spell
 		effectall = false;
 		effecteddragoncount = 1u;
 		selfeffecting = false;
+		isnturneffect = false;
 	}
 
 	public override void effect (Dragon dragon)

@@ -39,6 +39,9 @@ public class MasterControls : MonoBehaviour {
 	//sibling component scripts
 	public TurnBasedSystem turnmanager;
 
+	//Effect Manager
+	public EffectManager effectmanager;
+
 	//battlefield instance(Manual assignment)
 	public BattleField battlefield;
 	//battlefield gamedata
@@ -85,6 +88,9 @@ public class MasterControls : MonoBehaviour {
 
 		//loading sibling scripts
 		turnmanager=this.gameObject.GetComponent<TurnBasedSystem>();
+
+		//effect manager
+		effectmanager=new EffectManager(2);
 
 		//initialize players
 		initPlayers();
@@ -255,6 +261,11 @@ public class MasterControls : MonoBehaviour {
 	//turn ending function
 	public void endTurn()
 	{
+		//apply per turn effect
+		effectmanager.applyEffectsAll();
+		//apply player effects
+		effectmanager.applyEffects ((uint)(turnmanager.currentplayer-1));
+		
 		//update spellcooldown
 		players[turnmanager.currentplayer-1].decrementCoolDown(1u);
 
@@ -318,8 +329,28 @@ public class MasterControls : MonoBehaviour {
 	public void deploySpell(SpellID spellid)
 	{
 		uint cooldown = spelldeployer.getCoolDown ();
+
+		//AddComponentMenu to effectmanager
+		if (spelldeployer.isTurnEffecting ()) {
+			
+			Effect effect = spelldeployer.getEffect ();
+
+			//convert to DragonEffecting
+			if (effect.isDragonEffecting) {
+				DragonEffects modedeffect= effect as DragonEffects;
+				modedeffect.setDragons (utility_listofdragons);
+
+				//apply effect as per the turn of effect
+				if(effect.isEffectPerTurn)
+					effectmanager.InitiateEffect (effect,-1);
+				else
+					effectmanager.InitiateEffect (effect,turnmanager.currentplayer-1);
+			}
+		}
+
 		//deploy the spell with the list of dragons in utility list of dragos
-		spelldeployer.deploySpell (utility_listofdragons);
+		else
+			spelldeployer.deploySpell (utility_listofdragons);
 
 		//set spell cooldown in the playerdata
 		players[turnmanager.currentplayer-1].setCoolDown(spellid,cooldown);

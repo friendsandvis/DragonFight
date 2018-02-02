@@ -13,6 +13,7 @@ public enum SpellID:uint
 public abstract class Spell
 {
 	public SpellID spellid;
+	public bool isnturneffect;
 	public uint noofturnsforcooldown;
 	public bool effectall;
 	public bool selfeffecting;

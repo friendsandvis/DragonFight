@@ -35,6 +35,11 @@ public class SpellDeployer
 		currentspell = null;
 	}
 
+	public Effect getEffect()
+	{
+		Spell3 modedspell = currentspell as Spell3;
+		return modedspell.getEffect();
+	}
 
 	public bool doesSpellEffectsAllDragons()
 	{
@@ -78,5 +83,16 @@ public class SpellDeployer
 		}
 
 		return currentspell.noofturnsforcooldown;
+	}
+
+	public bool isTurnEffecting()
+	{
+		if (currentspell == null)
+		{
+			Debug.Log ("No selected spell");
+			return false;
+		}
+
+		return currentspell.isnturneffect;
 	}
 }

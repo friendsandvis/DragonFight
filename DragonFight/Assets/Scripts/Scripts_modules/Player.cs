@@ -69,8 +69,6 @@ public class Player {
 
 
 
-
-
 	public Player(uint playerindex,string playerdatafile)
 	{
 		this.playerindex = playerindex;
@@ -79,6 +77,8 @@ public class Player {
 
 		//set the player data
 		PlayerDataLoader.getPlayerData (out playersdragons,out playerspells, playerdatafile);
+
+
 	}
 
 	public void addDragonToPlayer(Dragon_GameController dragon)
