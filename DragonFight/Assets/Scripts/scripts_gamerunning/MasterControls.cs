@@ -297,6 +297,14 @@ public class MasterControls : MonoBehaviour {
 		//players[turnmanager.currentplayer-1].decrementNoofDragonsWithPlayer(dragontype,1);
 	}
 
+	//set the index of current dragon choice
+	public void setCurrentDragonIndex(int index)
+	{
+		currentdragontype = players [turnmanager.currentplayer - 1].getDragonAt (index).dragontype;
+
+		dragondeployer.dragonattrib = players [turnmanager.currentplayer - 1].getDragonAt (index);
+	}
+
 
 	//deploy the spell or start a cell selection procedure if needed
 	public void prepareSpell(SpellID spellid)
@@ -409,6 +417,11 @@ public class MasterControls : MonoBehaviour {
 	}
 
 
+	public List<string> getPlayerDragonNames()
+	{
+		return players [turnmanager.currentplayer - 1].getPlayerDragonNames();
+	}
+
 
 
 	//--------------------------------------------Initialization support-----------------------------------------
@@ -419,12 +432,12 @@ public class MasterControls : MonoBehaviour {
 		players=new Player[2];
 
 		//player 1
-		players[0]=new Player(0,"PlayerData_1.txt");
+		players[0]=new Player(0,"PlayerData_1.txt","PlayerData_1_Dragons.txt");
 		players [0].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,180.0f,0.0f ));
 		players [0].addSpawnPlate (2,8);
 
 		//player 2
-		players[1]=new Player(1,"PlayerData_2.txt");
+		players[1]=new Player(1,"PlayerData_2.txt","PlayerData_2_Dragons.txt");
 		players [1].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,0.0f,0.0f ));
 		players [1].addSpawnPlate (2,1);
 	}

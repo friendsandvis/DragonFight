@@ -65,21 +65,29 @@ public class Player {
 	List<PlayersSpell> playerspells;
 
 	//List of dragons available with player as dragonid-noofdragon pair
-	List<PlayersDragon> playersdragons;
+	List<Dragon> playersdragons;
+
+	//Load and store Spells
 
 
 
-	public Player(uint playerindex,string playerdatafile)
+	public Player(uint playerindex,string playerdatafile,string playerdragondatafile)
 	{
 		this.playerindex = playerindex;
 		spawnplates = new List<PlateIndex>();
 		dragonrotation = Quaternion.Euler (new Vector3 (0.0f,0.0f,0.0f ));
 
 		//set the player data
-		PlayerDataLoader.getPlayerData (out playersdragons,out playerspells, playerdatafile);
+		PlayerDataLoader.getPlayerData (out playerspells, playerdatafile);
 
+		//player dragon data
+		DragonLoader playerdragonloader=new DragonLoader();
+		playerdragonloader.startLoadingDragons (playerdragondatafile);
 
+		//retrive the copy of dragons
+		playersdragons = playerdragonloader.dragons;
 	}
+
 
 	public void addDragonToPlayer(Dragon_GameController dragon)
 	{
@@ -87,10 +95,12 @@ public class Player {
 		dragon.setDragonsPlayer (playerindex);
 	}
 
+
 	public void addSpawnPlate(uint x,uint y)
 	{
 		spawnplates.Add (new PlateIndex(x,y));
 	}
+
 
 	public bool isPlateASpawn(uint x,uint y)
 	{
@@ -103,6 +113,7 @@ public class Player {
 
 		return false;
 	}
+
 
 	public bool isSpellReadyForUse(SpellID spellid)
 	{
@@ -133,17 +144,26 @@ public class Player {
 			}
 		}
 	}
-
-
-
-	//decrement the count of a specific dragon theat is avialable to the player
-	public void decrementNoofDragonsWithPlayer(DragonType dragtype,uint decrementvalue)
-	{
-		foreach (PlayersDragon dragon in playersdragons) {
-			if (dragon.dragtype == dragtype) {
-				dragon.noofdragonsavailable -= decrementvalue;
-			}
 		
+
+	//get names as a list for all the names of dragons with player
+	public List<string> getPlayerDragonNames()
+	{
+		List<string> data=new List<string>();
+
+		foreach (Dragon drag in playersdragons) {
+			data.Add (drag.dragonname);
 		}
+
+		return data;
+	}
+
+	public Dragon getDragonAt(int index)
+	{
+		if(index>playersdragons.Count-1)
+			return null;
+
+		return playersdragons [index];
 	}
 }
+

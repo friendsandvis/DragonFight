@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-//this class servers to load all dragon tpes from file to memory
+//this class servers to load all dragons from file to memory
 public class DragonLoader{
 
 	public List<Dragon> dragons;
 	private string datafilessubdirectory="/DataFiles/";
 
-	// Use this for initialization
-	public void startLoadingDragons() {
+	//constructor
+	public DragonLoader()
+	{
 		dragons = new List<Dragon> ();
-		loadDragons ("DragonData.txt");
+	}
+
+	// Use this for initialization
+	public void startLoadingDragons(string ddatafile) {
+		dragons = new List<Dragon> ();
+		loadDragons (ddatafile);
 
 		foreach (Dragon drag in dragons) {
 			Debug.Log (drag.dragontype);
@@ -40,22 +46,20 @@ public class DragonLoader{
 
 		string fileline=null;
 		Dragon newdragon=null;
+		bool fetchdragon = false;
+
+
 		while ((fileline = filereader.ReadLine ()) != null) {
+
+			//get the name value pair
 			string name;string value;
 			getStringValuePair (fileline,out name,out value);
 
+			//fetch a dragon from data
 			if (name.CompareTo ("Dragon") == 0)
-				newdragon = new Dragon ();
-			else if (name.CompareTo ("Health") == 0)
-				newdragon.maxhealth = float.Parse (value);
-			/*there is no dragon name now just dragontype
-			 * else if (name.CompareTo ("Name") == 0)
-			 * newdragon.dragonname = value;
-			 * */
-			else if (name.CompareTo ("EndDragon") == 0) {
-				dragons.Add (newdragon);newdragon = null;
+				dragonFetchRoutine (filereader);
+			
 			}
-		}
 	}
 
 
@@ -79,5 +83,96 @@ public class DragonLoader{
 
 		name = data.Substring (0, colonindex);
 		value = data.Substring (colonindex+1,data.Length-(colonindex+1));
+	}
+
+
+	//dragon fetch routine
+	public void dragonFetchRoutine(StreamReader filereader)
+	{
+		string fileline = null;
+		Dragon newdragon = null;
+		uint dataindex = 0;
+
+		while ((fileline = filereader.ReadLine ()) != null) {
+
+			//get the name value pair
+			string name;
+			string value;
+			getStringValuePair (fileline, out name, out value);
+
+			//break point(add dragon to list)
+			if (name.CompareTo ("EndDragon") == 0) {
+				dragons.Add (newdragon);
+				return;
+			}
+
+
+			switch (dataindex) {
+			//dragontype id
+			case 0:
+				DragonType dragtype = (DragonType)(uint)int.Parse (value);
+				newdragon = getDragonShell (dragtype);
+				break;
+
+			//dragon movement
+			case 1:
+				newdragon.movementfredom = (uint)int.Parse (value);
+				break;
+
+				//dragon dragonlevel
+			case 2:
+				newdragon.draglevel = (uint)int.Parse (value);
+				break;
+
+				//dragon experience points
+			case 3:
+				newdragon.experiencescore = float.Parse (value);
+				break;
+
+				//dragon helath
+			case 4:
+				newdragon.maxhealth = float.Parse (value);
+				break;
+
+				//dragon attack
+			case 5:
+				newdragon.attack = float.Parse (value);
+				break;
+
+				//dragon defense
+			case 6:
+				newdragon.defense = float.Parse (value);
+				break;
+
+				//dragon dragonname
+			case 7:
+				newdragon.dragonname = value;
+				break;
+			
+			default:
+				Debug.Log ("Error in Dragon Data");
+				break;
+			}
+
+			dataindex++;
+
+		}
+	}
+
+
+	//get the respective dragon's attrib object as per the dragon choice index
+	public Dragon getDragonShell(DragonType dragontype)
+	{
+		switch (dragontype) {
+		case DragonType.BAHEMUTDRAGON:
+			return new BahemutDragon ();
+		case DragonType.SPEEDSTERDRAGON:
+			return new SpeedSterDragon ();
+		case DragonType.SEADRAGON:
+			return new SeaDragon ();
+		case DragonType.TIGERDRAGON:
+			return new TigerDragon ();
+		}
+		return null;
 	}
 }

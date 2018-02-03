@@ -13,6 +13,7 @@ public enum DragonType:uint
 public class Dragon
 {
 	//basic attribs of any dragon
+	public string dragonname;
 	public float maxhealth=0.0f;
 	public float attack = 0.0f;
 	public float defense = 0.0f;
@@ -37,6 +38,7 @@ public class Dragon
 		if (dragondata == null)
 			return;
 
+		this.dragonname = dragondata.dragonname;
 		this.maxhealth = dragondata.maxhealth;
 		this.defense = dragondata.defense;
 		this.attack = dragondata.attack;

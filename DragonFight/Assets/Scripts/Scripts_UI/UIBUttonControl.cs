@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class UIBUttonControl : MonoBehaviour {
 
 	//set manually
 	public MasterControls mastergamerunner;
+
+	//Retrived components 
+	private AddButton dragon_addbutton;
 
 	//all the buttons(set manually to avoid confusions)
 	public Button endturn;
@@ -18,10 +22,14 @@ public class UIBUttonControl : MonoBehaviour {
 	private SpellID utility_spellid;
 
 
-	public GameObject dragonbuttongroup,spellbuttongroup,attackbuttongroup;
+	public GameObject dragonbuttonpane,spellbuttongroup,attackbuttongroup;
 
 	// Use this for initialization
 	void Start () {
+
+		//set Components
+		dragon_addbutton=dragonbuttonpane.GetComponentInChildren<AddButton>();
+
 		//end turn listner
 		endturn.onClick.AddListener (endTurn);
 
@@ -29,25 +37,16 @@ public class UIBUttonControl : MonoBehaviour {
 		spawnbutton.onClick.AddListener (setState_Spawn);
 
 		//spell button listner
-		spellbutton.onClick.AddListener(setState_Spell);
+		spellbutton.onClick.AddListener (setState_Spell);
 
 		//deploy spell button listner
-		deployspellbutton.onClick.AddListener(deploySpell);
+		deployspellbutton.onClick.AddListener (deploySpell);
 
 		//move button listner
-		movebutton.onClick.AddListener(initDragonMovement);
+		movebutton.onClick.AddListener (initDragonMovement);
 
 		//attack button listner
-		attackbutton.onClick.AddListener(selectDragonToAttack);
-
-		//spell
-
-		//set dragonbutton listeners
-		Button[] dragonbuttons = dragonbuttongroup.GetComponentsInChildren<Button> ();
-		dragonbuttons [0].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.BAHEMUTDRAGON);});
-		dragonbuttons [1].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.SEADRAGON);});
-		dragonbuttons [2].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.SPEEDSTERDRAGON);});
-		dragonbuttons [3].onClick.AddListener (delegate {setCurrentDragonIndex (DragonType.TIGERDRAGON);});
+		attackbutton.onClick.AddListener (selectDragonToAttack);
 
 		//set spellbutton listeners
 		Button[] spellbuttons = spellbuttongroup.GetComponentsInChildren<Button> ();
@@ -59,7 +58,7 @@ public class UIBUttonControl : MonoBehaviour {
 		Button[] attackbuttons = attackbuttongroup.GetComponentsInChildren<Button> ();
 		attackbuttons [0].onClick.AddListener (delegate { prepareAttack(0);});
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -72,9 +71,14 @@ public class UIBUttonControl : MonoBehaviour {
 
 	private void setState_Spawn()
 	{
-		//enable dragon buttons
-		dragonbuttongroup.SetActive(true);
+		//dragonbuttongroup.SetActive(true);
+		dragonbuttonpane.SetActive (true);
 
+		//build buttons for names
+		dragon_addbutton.addButtonsForList (mastergamerunner.getPlayerDragonNames());
+
+		//add listners for buttons added
+		addButtonListner(dragon_addbutton.getButtons(),((int data)=> setCurrentDragonIndex(data)));
 
 		mastergamerunner.setState (GameStates.SPAWN);
 	}
@@ -84,16 +88,18 @@ public class UIBUttonControl : MonoBehaviour {
 		//enable spell buttons
 		spellbuttongroup.SetActive(true);
 
-
 		mastergamerunner.setState (GameStates.SPELL);
 	} 
 
-	private void setCurrentDragonIndex (DragonType dragontype)
+
+	//sends the index of player's dragon list which needs to be used 
+	public void setCurrentDragonIndex(int index)
 	{
 		//disable the dragon buttons
-		dragonbuttongroup.SetActive(false);
+		//dragonbuttongroup.SetActive(false);
+		dragonbuttonpane.SetActive(false);
 
-		mastergamerunner.setCurrentDragonIndex (dragontype);
+		mastergamerunner.setCurrentDragonIndex (index);
 	}
 
 	private void activateSpell(SpellID spellid)
@@ -145,5 +151,14 @@ public class UIBUttonControl : MonoBehaviour {
 		attackbuttongroup.SetActive (false);
 
 		mastergamerunner.prepAttack (index);
+	}
+
+	//lambda using function to add functionality to given button set
+	private void addButtonListner(List<Button> buttons,Action<int> functionality)
+	{
+		for (int z = 0; z < buttons.Count; z++) {
+			int zcopy = z;
+			buttons [z].onClick.AddListener (() => functionality (zcopy));
+		}
 	}
 }

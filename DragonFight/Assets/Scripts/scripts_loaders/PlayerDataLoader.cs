@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using UnityEngine;
+
 
 public class PlayerDataLoader {
 
 	private static string datafilessubdirectory="/DataFiles/";
 
-	public static void getPlayerData(out List<PlayersDragon> playersdragon,out List<PlayersSpell> playerspell,string filename)
+	public static void getPlayerData(out List<PlayersSpell> playerspell,string filename)
 	{
-		playersdragon = null;
 		playerspell = null;
 		StreamReader effectreader = null;
 		FileInfo spelleffectfile = new FileInfo (Application.dataPath+datafilessubdirectory+filename);
@@ -39,9 +40,6 @@ public class PlayerDataLoader {
 			switch (redline [1]) {
 			case 's':
 				playerspell = getPlayersSpells (redline.Substring (2, redline.Length - 2));
-				break;
-			case 'd':
-				playersdragon = getPlayersDragons (redline.Substring (2, redline.Length - 2));
 				break;
 			}
 		}

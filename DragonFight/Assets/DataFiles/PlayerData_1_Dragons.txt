@@ -1,0 +1,10 @@
+Dragon:1
+DragonType:2
+movementfreedom:1
+dragonlevel:0
+dragonexperience:0.0
+Health:200.0
+attack:10.0
+defense:50.0
+dragonname:bm
+EndDragon:1
