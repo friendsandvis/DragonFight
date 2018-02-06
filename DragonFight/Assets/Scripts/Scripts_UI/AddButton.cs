@@ -11,7 +11,6 @@ public class AddButton : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		Debug.Log ("Awake");
 		contexttransform = gameObject.GetComponent<Transform> ();
 		currentbuttons = new List<GameObject> ();
 	}

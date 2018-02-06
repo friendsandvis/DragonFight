@@ -6,6 +6,7 @@ public class PlayersSpell
 {
 	public SpellID spellid;
 	public uint turnsuntilavailable;
+	public Spell spellobj;
 
 	public PlayersSpell(SpellID spellid)
 	{
@@ -15,6 +16,7 @@ public class PlayersSpell
 
 }
 
+//to remove safely
 public class PlayersDragon
 {
 	public DragonType dragtype;
@@ -71,7 +73,7 @@ public class Player {
 
 
 
-	public Player(uint playerindex,string playerdatafile,string playerdragondatafile)
+	public Player(uint playerindex,string playerdatafile,string playerdragondatafile,string spelldatafile)
 	{
 		this.playerindex = playerindex;
 		spawnplates = new List<PlateIndex>();
@@ -86,6 +88,11 @@ public class Player {
 
 		//retrive the copy of dragons
 		playersdragons = playerdragonloader.dragons;
+
+		//load spells
+		SpellLoader spellloader=new SpellLoader();
+		spellloader.startLoadingSpells (spelldatafile);
+		playerspells = spellloader.spells;
 	}
 
 
@@ -124,6 +131,16 @@ public class Player {
 		return false;
 	}
 
+	public bool isSpellReadyForUse(int index)
+	{
+		if (index >= playerspells.Count)
+		{
+			Debug.Log ("out of bound");
+			return false;
+		}
+		return (playerspells[index].turnsuntilavailable==0u);
+	}
+
 	//the +1 is because the current turn is also counted (update of cooldown is very last of updates)
 	public void setCoolDown(SpellID  spellid,uint cooldown)
 	{
@@ -131,6 +148,17 @@ public class Player {
 			if (pspell.spellid == spellid)
 				pspell.turnsuntilavailable = cooldown+1;
 		}
+	}
+
+	//the +1 is because the current turn is also counted (update of cooldown is very last of updates)
+	public void setCoolDown(int  index,uint cooldown)
+	{
+		if (index >= playerspells.Count)
+		{
+			Debug.Log ("out of bound");
+			return;
+		}
+		playerspells[index].turnsuntilavailable = cooldown+1;
 	}
 
 
@@ -164,6 +192,14 @@ public class Player {
 			return null;
 
 		return playersdragons [index];
+	}
+
+	public Spell getSpellAt(int index)
+	{
+		if(index>playerspells.Count-1)
+			return null;
+
+		return playerspells [index].spellobj;
 	}
 }
 

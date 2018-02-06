@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+//effects are spells with some special data which are exicuted at the end of turn
 public class Effect {
 
+	public Spell spell;
 	public uint effectfornumberofturns;
 	public bool isDragonEffecting;
 	public bool isEffectPerTurn;

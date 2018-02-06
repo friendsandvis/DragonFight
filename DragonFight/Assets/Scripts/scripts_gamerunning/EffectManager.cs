@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
+// anages the playeing of effects by using queue
+//two sets of effects players base played as per turn or all effects which are played per turn
 public class EffectManager {
 	public LinkedQueue lq_all;
 	public LinkedQueue[] lq_players;
@@ -31,9 +32,12 @@ public class EffectManager {
 		LinkedNode	effectnode;
 		LinkedQueue lqnew=new LinkedQueue();
 
+
 		//apply effects
 		while ((effectnode = lq_all.delete ()) != null) {
-			effectnode.effect.effect ();
+			
+			if (effectnode.effect.isDragonEffecting)
+				effectnode.effect.effect ();
 
 			if (!effectnode.effect.isComplete ())
 				lqnew.insert(effectnode);

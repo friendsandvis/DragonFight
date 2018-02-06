@@ -7,22 +7,12 @@ public class SpellDeployer
 {
 	Spell currentspell;
 
-
-	public void prepareSpell(SpellID spellid)
+	//set the current speell as a refrence to the spell comming from the main controlls 
+	//assuming this is the spell which is selected now
+	public void prepareSpell(Spell spell)
 	{
-		Debug.Log (spellid);
-		switch(spellid)
-		{
-		case SpellID.POISIONBOMB:
-			currentspell = new Spell2 ();
-			break;
-		case SpellID.POISIONARRAOW:
-			currentspell = new Spell1 ();
-			break;
-		case SpellID.HEALTHUP:
-			currentspell = new Spell3 ();
-			break;
-		}
+		currentspell = (spell);
+		Debug.Log (currentspell.spellid);
 	}
 
 	public void deploySpell(List<Dragon> dragons)
@@ -35,11 +25,20 @@ public class SpellDeployer
 		currentspell = null;
 	}
 
-	public Effect getEffect()
+	public Effect getEffect(List<Dragon> dragons)
 	{
-		Spell3 modedspell = currentspell as Spell3;
-		return modedspell.getEffect();
+		//considering dragon effects only
+
+		DragonEffects eff = new DragonEffects ();
+		eff.spell = currentspell;
+		eff.effecteddragons = dragons;
+		return eff as Effect;
 	}
+
+
+
+	//-------------------------------------utility functins to retrive data from current sppelll--------------------------------
+
 
 	public bool doesSpellEffectsAllDragons()
 	{

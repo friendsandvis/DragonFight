@@ -9,15 +9,23 @@ public enum SpellID:uint
 	HEALTHUP=2u
 };
 
+public enum SpellIDBasic:uint
+{
+	HEALTHEFFECTING=0u
+};
+
 //a spell is just a base class
 public abstract class Spell
 {
 	public SpellID spellid;
+	public SpellIDBasic spellbasicid;
 	public bool isnturneffect;
 	public uint noofturnsforcooldown;
 	public bool effectall;
 	public bool selfeffecting;
 	public uint effecteddragoncount;
+	public float effectvalue;
+	public float spellexppoints;
 
 	private static SpellEffectValueLoader spelleffectdataloader=null;
 
@@ -36,4 +44,25 @@ public abstract class Spell
 	{
 		return spelleffectdataloader.getAttrib ((uint)this.spellid,(uint)dragon.dragontype);
 	}
+
+	//default constructor
+	public Spell()
+	{
+	}
+
+	//copy constructor(usable is spELL IS not abstract)
+	/*
+	public Spell(Spell sp)
+	{
+		spellid=sp.spellid;
+		spellbasicid=sp.spellbasicid;
+		isnturneffect=sp.isnturneffect;
+		noofturnsforcooldown=sp.noofturnsforcooldown;
+		effectall=sp.effectall;
+		selfeffecting=sp.selfeffecting;
+		effecteddragoncount=sp.effecteddragoncount;
+		effectvalue=sp.effectvalue;
+		spellexppoints=sp.spellexppoints;
+	}
+	*/
 }

@@ -13,11 +13,6 @@ public class Heaalth_DragonEffect : DragonEffects {
 		isEffectPerTurn = false;
 	}
 
-	public override void dragoneffect (Dragon dragon)
-	{
-		dragon.maxhealth += healthreduction;
-	}
-
 	public void sethealthredectionvalue(float hvalue)
 	{
 		this.healthreduction = hvalue;

@@ -11,21 +11,20 @@ public class DragonEffects : Effect {
 	public DragonEffects()
 	{
 		isDragonEffecting = true;
+		isEffectPerTurn = true;
 	}
 
 	public override void effect ()
 	{
 		if (effectfornumberofturns <= 0)
 			return;
-			
+
 		foreach (Dragon dragon in effecteddragons) {
-			dragoneffect (dragon);
+			spell.effect (dragon);
 		}
 
 		effectfornumberofturns--;
 	}
-
-	public virtual void dragoneffect(Dragon dragon){}
 
 	public void setDragons(List<Dragon> dragons)
 	{

@@ -835,14 +835,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mastergamerunner: {fileID: 1875904412}
-  dragonbuttonpane: {fileID: 185188704}
   endturn: {fileID: 2041773532}
   spawnbutton: {fileID: 1830697627}
   spellbutton: {fileID: 1987789911}
   deployspellbutton: {fileID: 801021955}
   movebutton: {fileID: 1083673304}
   attackbutton: {fileID: 1303505368}
-  dragonbuttongroup: {fileID: 1402349507}
+  buttonpane: {fileID: 185188704}
   spellbuttongroup: {fileID: 1759200031}
   attackbuttongroup: {fileID: 1758749316}
 --- !u!114 &435817133
@@ -3813,8 +3812,8 @@ MonoBehaviour:
     - {fileID: 1710260940940306, guid: 3e024d7c6382dbe4395158b9c9c7d106, type: 2}
     - {fileID: 1576926716064214, guid: f73c685a317839742884a16d58ad38d3, type: 2}
     - {fileID: 1136020050847608, guid: 13d29f1362fa7fe478bf85d55ffafa8d, type: 2}
-  turnmanager: {fileID: 0}
   battlefield: {fileID: 918218903}
+  turnmanager: {fileID: 0}
   currentdragontype: 0
   noofdragons: 4
   noofspells: 3

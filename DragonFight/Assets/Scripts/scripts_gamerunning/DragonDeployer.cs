@@ -8,7 +8,7 @@ public class DragonDeployer{
 	public Dragon dragonattrib;
 
 	//deploy the dragons
-	public Dragon_GameController deployDragon (GameObject dragonprefab,DragonType dtype , Vector3 pos)
+	public Dragon_GameController deployDragon (GameObject dragonprefab, Vector3 pos)
 	{
 		//instantiate dragon prefab
 		GameObject dragon=GameObject.Instantiate (dragonprefab);

@@ -9,29 +9,28 @@ public class UIBUttonControl : MonoBehaviour {
 	//set manually
 	public MasterControls mastergamerunner;
 
-	//Retrived components 
-	private AddButton dragon_addbutton;
+	//Retrived addbutton scripts that serves as the builders for dynamic select lists
+	private AddButton dynamicoptionpane_addbutton;
 
 	//all the buttons(set manually to avoid confusions)
-	public Button endturn;
-	public Button spawnbutton,spellbutton,deployspellbutton,movebutton,attackbutton;
+	public Button endturn,spawnbutton,spellbutton,deployspellbutton,movebutton,attackbutton;
 
 
 	//-------------------------------UTILITY variables needed for functioning of this class------------------------
 	//not sure if they are supposed to be another class or not.(this approce sseems resonable right now)
-	private SpellID utility_spellid;
+	private int utility_spellindex;//will remove later
 
 
-	public GameObject dragonbuttonpane,spellbuttongroup,attackbuttongroup;
+	public GameObject buttonpane,spellbuttongroup,attackbuttongroup;
 
 	// Use this for initialization
 	void Start () {
 
 		//set Components
-		dragon_addbutton=dragonbuttonpane.GetComponentInChildren<AddButton>();
+		dynamicoptionpane_addbutton=buttonpane.GetComponentInChildren<AddButton>();
 
 		//end turn listner
-		endturn.onClick.AddListener (endTurn);
+		endturn.onClick.AddListener (()=>{mastergamerunner.endTurn();});
 
 		//spawn button listner
 		spawnbutton.onClick.AddListener (setState_Spawn);
@@ -50,39 +49,39 @@ public class UIBUttonControl : MonoBehaviour {
 
 		//set spellbutton listeners
 		Button[] spellbuttons = spellbuttongroup.GetComponentsInChildren<Button> ();
-		spellbuttons [0].onClick.AddListener (delegate {activateSpell (SpellID.POISIONARRAOW);});
-		spellbuttons [1].onClick.AddListener (delegate {activateSpell (SpellID.POISIONBOMB);});
-		spellbuttons [2].onClick.AddListener (delegate {activateSpell (SpellID.HEALTHUP);});
+		List<Button> spellbutlist=new List<Button>();
+
+		for (uint z = 0; z < spellbuttons.Length; z++)
+			spellbutlist.Add (spellbuttons [z]);
+
+		addButtonListner (spellbutlist,(int data)=>activateSpell(data));
 
 		//set spellbutton listeners
 		Button[] attackbuttons = attackbuttongroup.GetComponentsInChildren<Button> ();
 		attackbuttons [0].onClick.AddListener (delegate { prepareAttack(0);});
 	}
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	private void endTurn()
-	{
-		mastergamerunner.endTurn ();
-	}
-
+	//Sets the state of game to spawn a character
+	//for that also recieve the list of all the dragons that are spawnable
 	private void setState_Spawn()
 	{
 		//dragonbuttongroup.SetActive(true);
-		dragonbuttonpane.SetActive (true);
+		buttonpane.SetActive (true);
 
 		//build buttons for names
-		dragon_addbutton.addButtonsForList (mastergamerunner.getPlayerDragonNames());
+		dynamicoptionpane_addbutton.addButtonsForList (mastergamerunner.getPlayerDragonNames());
 
 		//add listners for buttons added
-		addButtonListner(dragon_addbutton.getButtons(),((int data)=> setCurrentDragonIndex(data)));
+		addButtonListner(dynamicoptionpane_addbutton.getButtons(),((int data)=> setCurrentDragonIndex(data)));
 
+		//finally set the spawn state
 		mastergamerunner.setState (GameStates.SPAWN);
 	}
 
+
+	//Sets the state of game to spawn a character
+	//for that also recieve the list of all the dragons that are spawnable
 	private void setState_Spell()
 	{
 		//enable spell buttons
@@ -97,19 +96,19 @@ public class UIBUttonControl : MonoBehaviour {
 	{
 		//disable the dragon buttons
 		//dragonbuttongroup.SetActive(false);
-		dragonbuttonpane.SetActive(false);
+		buttonpane.SetActive(false);
 
 		mastergamerunner.setCurrentDragonIndex (index);
 	}
 
-	private void activateSpell(SpellID spellid)
+	private void activateSpell(int index)
 	{
-		if (!mastergamerunner.isSpellUsable (spellid))
+		if (!mastergamerunner.isSpellUsable (index))
 		{
 			Debug.Log ("Spell not usable");
 			return;
 		}
-		
+
 		//disable spell buttons
 		spellbuttongroup.SetActive(false);
 
@@ -117,8 +116,8 @@ public class UIBUttonControl : MonoBehaviour {
 		deployspellbutton.gameObject.SetActive(true);
 
 		//just prepare the spell not deploy it
-		mastergamerunner.prepareSpell (spellid);
-		utility_spellid = spellid;
+		mastergamerunner.prepareSpell (index);
+		utility_spellindex = index;
 	}
 
 	private void deploySpell()
@@ -127,7 +126,7 @@ public class UIBUttonControl : MonoBehaviour {
 		deployspellbutton.gameObject.SetActive(false);
 
 		//deploy spell
-		mastergamerunner.deploySpell (utility_spellid);
+		mastergamerunner.deploySpell (utility_spellindex);
 	}
 
 	private void initDragonMovement()

@@ -1,0 +1,11 @@
+Spell:1
+SpellIDBasic:0
+SpellID:2
+CoolDown:3
+SpellExpPoints:50.0
+EffectValue:20.0
+TurnEffecting:1
+EffectAll:1
+SelfEffecting:0
+EffectedDragonCount:0
+EndSpell:1

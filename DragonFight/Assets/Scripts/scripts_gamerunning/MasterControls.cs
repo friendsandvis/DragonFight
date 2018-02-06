@@ -24,39 +24,35 @@ public class MasterControls : MonoBehaviour {
 	//------------------preinitialized data--------------------------
 	public UIBUttonControl buttoncontrols;
 	public DragonPrefabs dragonprefab;
+	public BattleField battlefield;
+	public BattleField_GameData battlefieldgamedata;
 
+	//---------------------Dragon loader and deployer(instansiated in the start of script)-------------------------
 
-	//Dragon loader and deployer(instansiated in the start of script)
 	//public DragonLoader dragonloader;//not needed right now(becase dragoons are hard coded specail classes)
 	private DragonDeployer dragondeployer;
-
 	//Spell deployer
 	private SpellDeployer spelldeployer;
-
 	//Attack Deployer
 	private AttackDeployer attackdeployer;
-
-	//sibling component scripts
-	public TurnBasedSystem turnmanager;
-
 	//Effect Manager
 	public EffectManager effectmanager;
 
-	//battlefield instance(Manual assignment)
-	public BattleField battlefield;
-	//battlefield gamedata
-	public BattleField_GameData battlefieldgamedata;
+
+	//----------------------------------sibling component scripts--------------------------------------------------
+	public TurnBasedSystem turnmanager;
+
+
+	//-------------------gamerunning data--------------------------
 
 	//Game State Runner
 	GameStates gstate;
-
 	//current dragon's type in  prefabs list(used to get dragon prefab)
 	public DragonType currentdragontype;
-
-
-	//-----------------GameData----------------
+	//required for spelleffectloader
 	public uint noofdragons,noofspells;
 	public Player[] players;
+
 
 	//-------------------------------UTILITY variables needed for functioning of this class------------------------
 	//not sure if they are supposed to be another class or not.(this approce seems resonable right now)
@@ -103,6 +99,9 @@ public class MasterControls : MonoBehaviour {
 	}
 
 
+
+
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -117,8 +116,7 @@ public class MasterControls : MonoBehaviour {
 
 
 
-
-
+	//Actions to do on mouse clicks (depending on game state)
 	private void poolMouseClicks()
 	{
 		//detect mouse click(for spawn)
@@ -143,9 +141,9 @@ public class MasterControls : MonoBehaviour {
 						break;
 
 					//if correct then deploy the dragon
-					Dragon_GameController dragoncontroller = dragondeployer.deployDragon (dragonprefab.dragons [(uint)currentdragontype],  currentdragontype, battlefield.getMouseWorldposonBoard ());
+					Dragon_GameController dragoncontroller = dragondeployer.deployDragon (dragonprefab.dragons [(uint)currentdragontype], battlefield.getMouseWorldposonBoard ());
 
-					//add dragon to the player
+					//add dragon to the player(we modify dragon's attrib as per players)
 					players [turnmanager.currentplayer - 1].addDragonToPlayer (dragoncontroller);
 
 					//update chancges to the battlefield data
@@ -263,6 +261,7 @@ public class MasterControls : MonoBehaviour {
 	{
 		//apply per turn effect
 		effectmanager.applyEffectsAll();
+
 		//apply player effects
 		effectmanager.applyEffects ((uint)(turnmanager.currentplayer-1));
 		
@@ -279,44 +278,36 @@ public class MasterControls : MonoBehaviour {
 
 
 
-	//set appropriate state based on the incomming string
+	//set appropriate state based on the incomming STATE
 	public void setState(GameStates state)
 	{
 		gstate = state;
 	}
-
-
-
-	//set the index of current dragon choice
-	public void setCurrentDragonIndex(DragonType dragontype)
-	{
-		currentdragontype = dragontype;
-
-		//dragon dicrement (if choosen) in the player dragons list
-		//NOTE: (will uncomment after making the ui more intelligent)
-		//players[turnmanager.currentplayer-1].decrementNoofDragonsWithPlayer(dragontype,1);
-	}
+		
 
 	//set the index of current dragon choice
 	public void setCurrentDragonIndex(int index)
 	{
+		//get the dragon type of the indexed dragon
 		currentdragontype = players [turnmanager.currentplayer - 1].getDragonAt (index).dragontype;
 
+		//get the dragon which will be deployed and set it as active in deployer
 		dragondeployer.dragonattrib = players [turnmanager.currentplayer - 1].getDragonAt (index);
 	}
 
 
+	//new function overloaded for index
 	//deploy the spell or start a cell selection procedure if needed
-	public void prepareSpell(SpellID spellid)
+	public void prepareSpell(int index)
 	{
-		if (!players [turnmanager.currentplayer - 1].isSpellReadyForUse (spellid))
+		if (!players [turnmanager.currentplayer - 1].isSpellReadyForUse (index))
 		{
 			Debug.Log ("Spell under cooldown");
 			return;
 		}
-		
+
 		//prepareSpell the Spell int the Spell deployer
-		spelldeployer.prepareSpell (spellid);
+		spelldeployer.prepareSpell (players [turnmanager.currentplayer - 1].getSpellAt(index));
 
 		//set effected dragons if all is range of effect
 		if (spelldeployer.doesSpellEffectsAllDragons ()) {
@@ -334,26 +325,25 @@ public class MasterControls : MonoBehaviour {
 		}
 	}
 
-	public void deploySpell(SpellID spellid)
+
+	public void deploySpell(int index)
 	{
+		//get the cool down which will be effecteive
 		uint cooldown = spelldeployer.getCoolDown ();
 
 		//AddComponentMenu to effectmanager
 		if (spelldeployer.isTurnEffecting ()) {
 			
-			Effect effect = spelldeployer.getEffect ();
+			Effect effect = spelldeployer.getEffect (utility_listofdragons);
+			//set the turns for effect=cooldown
+			effect.setTurnsofEffect(cooldown);
 
-			//convert to DragonEffecting
-			if (effect.isDragonEffecting) {
-				DragonEffects modedeffect= effect as DragonEffects;
-				modedeffect.setDragons (utility_listofdragons);
 
-				//apply effect as per the turn of effect
-				if(effect.isEffectPerTurn)
-					effectmanager.InitiateEffect (effect,-1);
-				else
-					effectmanager.InitiateEffect (effect,turnmanager.currentplayer-1);
-			}
+			//apply effect as per the turn of effect
+			if(effect.isEffectPerTurn)
+				effectmanager.InitiateEffect (effect,-1);
+			else
+				effectmanager.InitiateEffect (effect,turnmanager.currentplayer-1);
 		}
 
 		//deploy the spell with the list of dragons in utility list of dragos
@@ -361,7 +351,7 @@ public class MasterControls : MonoBehaviour {
 			spelldeployer.deploySpell (utility_listofdragons);
 
 		//set spell cooldown in the playerdata
-		players[turnmanager.currentplayer-1].setCoolDown(spellid,cooldown);
+		players[turnmanager.currentplayer-1].setCoolDown(index,cooldown);
 
 		//set the utility list to null (just for safety and garbage collection)
 		utility_listofdragons = null;
@@ -409,11 +399,10 @@ public class MasterControls : MonoBehaviour {
 		gstate = GameStates.NONE;
 	}
 
-
 	//is spell ready to be used
-	public bool isSpellUsable(SpellID spellid)
+	public bool isSpellUsable(int index)
 	{
-		return players [turnmanager.currentplayer - 1].isSpellReadyForUse (spellid);
+		return players [turnmanager.currentplayer - 1].isSpellReadyForUse (index);
 	}
 
 
@@ -432,12 +421,12 @@ public class MasterControls : MonoBehaviour {
 		players=new Player[2];
 
 		//player 1
-		players[0]=new Player(0,"PlayerData_1.txt","PlayerData_1_Dragons.txt");
+		players[0]=new Player(0,"PlayerData_1.txt","PlayerData_1_Dragons.txt","PlayerData_1_Spells.txt");
 		players [0].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,180.0f,0.0f ));
 		players [0].addSpawnPlate (2,8);
 
 		//player 2
-		players[1]=new Player(1,"PlayerData_2.txt","PlayerData_2_Dragons.txt");
+		players[1]=new Player(1,"PlayerData_2.txt","PlayerData_2_Dragons.txt","PlayerData_2_Spells.txt");
 		players [1].dragonrotation = Quaternion.Euler (new Vector3 (0.0f,0.0f,0.0f ));
 		players [1].addSpawnPlate (2,1);
 	}
