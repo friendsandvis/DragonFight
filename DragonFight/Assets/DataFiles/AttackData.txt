@@ -1,0 +1,17 @@
+Attack:1
+AttackID:0
+DamageDone:10.0
+Range:1
+SelfAttacking:0
+effectAll:1
+effectedDragonCount:0
+EndAttack:1
+
+Attack:2
+AttackID:1
+DamageDone:40.0
+Range:4
+SelfAttacking:0
+effectAll:0
+effectedDragonCount:1
+EndAttack:2

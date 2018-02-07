@@ -17,6 +17,6 @@ public class Spell_HealthEffecting :Spell {
 
 	public override void effect (Dragon dragon)
 	{
-		dragon.maxhealth += effectvalue;
+		dragon.maxhealth += getDragonEffect(dragon);
 	}
 }

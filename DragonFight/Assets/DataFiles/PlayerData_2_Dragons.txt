@@ -7,6 +7,9 @@ Health:1000.0
 attack:20.0
 defense:10.0
 dragonname:player_dragon11
+Attack:1
+attackid:1
+EndAttack:1
 EndDragon:1
 
 Dragon:2
@@ -18,4 +21,7 @@ Health:150.0
 attack:20.0
 defense:10.0
 dragonname:player_dragon21
+Attack:1
+attackid:0
+EndAttack:1
 EndDragon:1

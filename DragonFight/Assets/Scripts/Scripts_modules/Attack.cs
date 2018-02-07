@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum AttackId
+public enum AttackId:uint
 {
-	FIREBREADTH,TAILWHIP	
+	FIREBREADTH=0u,TAILWHIP=1u	
 };
 
 //represents a attck which is applied on a dragon
@@ -22,5 +22,19 @@ public class Attack {
 	public virtual void applyEffect(Dragon dragon,float efficiency)
 	{
 		dragon.maxhealth -= efficiency*damagedone;
+	}
+
+	//default constructor
+	public Attack(){}
+
+	//copy constructor
+	public Attack(Attack attack)
+	{
+		attackid = attack.attackid;
+		damagedone = attack.damagedone;
+		range = attack.range;
+		selfattacking = attack.selfattacking;
+		effectall = attack.effectall;
+		effecteddragoncount = attack.effecteddragoncount;
 	}
 }

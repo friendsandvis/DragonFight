@@ -37,6 +37,8 @@ public class MasterControls : MonoBehaviour {
 	private AttackDeployer attackdeployer;
 	//Effect Manager
 	public EffectManager effectmanager;
+	//attack data loader
+	public AttackManagers attackmanagers; 
 
 
 	//----------------------------------sibling component scripts--------------------------------------------------
@@ -81,6 +83,15 @@ public class MasterControls : MonoBehaviour {
 
 		//load the spell effect matrix
 		Spell.initSpellEffectValueLoader(noofspells,noofdragons);
+
+		//load attacks
+		AttckLoader attackloader=new AttckLoader();
+		attackloader.startLoadingAttacks("AttackData.txt");
+		//set attakc data to managers
+		attackmanagers=new AttackManagers(attackloader.attacks);
+
+		//apply attack anager to DragonLoader
+		DragonLoader.attackmanager=attackmanagers;
 
 		//loading sibling scripts
 		turnmanager=this.gameObject.GetComponent<TurnBasedSystem>();

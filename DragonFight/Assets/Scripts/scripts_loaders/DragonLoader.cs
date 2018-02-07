@@ -6,6 +6,9 @@ using UnityEngine;
 //this class servers to load all dragons from file to memory
 public class DragonLoader{
 
+	//the attack manager is unique
+	public static AttackManagers attackmanager;
+
 	public List<Dragon> dragons;
 	private string datafilessubdirectory="/DataFiles/";
 
@@ -119,34 +122,54 @@ public class DragonLoader{
 				newdragon.movementfredom = (uint)int.Parse (value);
 				break;
 
-				//dragon dragonlevel
+			//dragon dragonlevel
 			case 2:
 				newdragon.draglevel = (uint)int.Parse (value);
 				break;
 
-				//dragon experience points
+			//dragon experience points
 			case 3:
 				newdragon.experiencescore = float.Parse (value);
 				break;
 
-				//dragon helath
+			//dragon helath
 			case 4:
 				newdragon.maxhealth = float.Parse (value);
 				break;
 
-				//dragon attack
+			//dragon attack
 			case 5:
 				newdragon.attack = float.Parse (value);
 				break;
 
-				//dragon defense
+			//dragon defense
 			case 6:
 				newdragon.defense = float.Parse (value);
 				break;
 
-				//dragon dragonname
+			//dragon dragonname
 			case 7:
 				newdragon.dragonname = value;
+				break;
+
+			//attacks
+			case 8:
+				//start attack load cycle
+				if (name == "Attack") {
+					newdragon.moves = new List<Attack> ();
+					dataindex--;
+					break;
+				}
+				//end attack load cycle
+				if (name == "EndAttack")
+					break;
+
+				//load an attack
+				AttackId attid = (AttackId)(uint)int.Parse (value);
+				newdragon.moves.Add(attackmanager.getAttackCopy (attid));
+
+				//prevent counter update
+				dataindex--;
 				break;
 			
 			default:
